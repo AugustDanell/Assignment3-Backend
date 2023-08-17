@@ -1,9 +1,12 @@
 package a3.springweb.springweb.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import a3.springweb.springweb.model.Franchise;
 import a3.springweb.springweb.repository.FranchiseRepository;
 
+@Service
 public class FranchiseServiceImpl implements FranchiseService {
 
     private final FranchiseRepository franchiseRepository;
@@ -11,6 +14,11 @@ public class FranchiseServiceImpl implements FranchiseService {
     @Autowired
     public FranchiseServiceImpl(FranchiseRepository franchiseRepository){
         this.franchiseRepository= franchiseRepository;
+    }
+
+    @Override
+    public Franchise findById(Integer id){
+        return franchiseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("error on id: " + id));
     }
 
 }

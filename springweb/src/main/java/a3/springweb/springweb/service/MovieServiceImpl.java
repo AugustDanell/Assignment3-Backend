@@ -2,6 +2,8 @@ package a3.springweb.springweb.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import a3.springweb.springweb.model.Franchise;
+import a3.springweb.springweb.model.Movie;
 import a3.springweb.springweb.repository.MovieRepository;
 
 public class MovieServiceImpl implements MovieService {
@@ -13,4 +15,8 @@ public class MovieServiceImpl implements MovieService {
         this.movieRepository = movieRepository;
     }
 
+    @Override
+    public Movie findById(Integer id){
+        return movieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("error on id: " + id));
+    }
 }
