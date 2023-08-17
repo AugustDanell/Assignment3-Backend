@@ -13,6 +13,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
+import a3.springweb.springweb.model.Franchise;
+
 @Entity
 public class Movie{
 
@@ -38,7 +40,7 @@ public class Movie{
     @Column()
     private String trailer;
 
-    @ManyToMany(mappedBy = "character")
+    @ManyToMany(mappedBy = "movies")
     private Set<Character> characters;
 
     @ManyToOne
