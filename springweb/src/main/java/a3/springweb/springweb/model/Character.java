@@ -36,4 +36,28 @@ public class Character {
         @JoinColumn(name="movie_id")
     })
     private Set<Movie> movies; 
+
+    public int getId(){
+        return id;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public String getAlias(){
+        return alias;
+    }
+
+    public String getGender(){
+        return gender;
+    }
+
+    public String getUrl(){
+        return url;
+    }
+
+    public Set<Movie> getMovies(){
+        return movies;
+    }
 }

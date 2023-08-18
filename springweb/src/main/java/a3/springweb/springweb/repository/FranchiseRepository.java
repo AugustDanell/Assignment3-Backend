@@ -10,6 +10,7 @@ import a3.springweb.springweb.model.Franchise;
 
 @Repository
 public interface FranchiseRepository extends JpaRepository<Franchise, Integer> {
-    @Query("SELECT * FROM franchise WHERE id = 1")
-    Set<Franchise> findAllById(Integer Id);
+    
+    //@Query("SELECT * FROM franchise WHERE id = 1")
+    //Set<Franchise> findById(Integer Id);
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 
 import java.util.Set;
 
+import org.hibernate.grammars.hql.HqlParser.FrameClauseContext;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -46,4 +48,42 @@ public class Movie{
     @ManyToOne
     @JoinColumn(name="franchise_id")
     private Franchise franchise;
+
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public String getPicture(){
+        return picture;
+    }
+
+    public String getTrailer() {
+        return trailer;
+    }
+
+    public Set<Character> getCharacters() {
+        return characters;
+    }
+
+    public Franchise getFranchise() {
+        return franchise;
+    }
+
 }
