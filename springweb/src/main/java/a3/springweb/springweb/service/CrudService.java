@@ -9,7 +9,7 @@ public interface CrudService<T, ID> {
     
     T findById(ID id);
 
-    //Collection<T> findAll();
+    Collection<T> findAll();
 
     //T add(T entity);
 

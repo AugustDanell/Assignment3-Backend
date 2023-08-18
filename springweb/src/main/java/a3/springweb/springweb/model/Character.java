@@ -2,6 +2,9 @@ package a3.springweb.springweb.model;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -57,6 +60,7 @@ public class Character {
         return url;
     }
 
+    @JsonIgnoreProperties("characters")
     public Set<Movie> getMovies(){
         return movies;
     }

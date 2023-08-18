@@ -6,6 +6,9 @@ import java.util.Set;
 
 import org.hibernate.grammars.hql.HqlParser.FrameClauseContext;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -78,10 +81,12 @@ public class Movie{
         return trailer;
     }
 
+    @JsonIgnoreProperties("movies")
     public Set<Character> getCharacters() {
         return characters;
     }
 
+    @JsonIgnoreProperties("movies")
     public Franchise getFranchise() {
         return franchise;
     }

@@ -1,5 +1,7 @@
 package a3.springweb.springweb.service;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +22,10 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie findById(Integer id){
         return movieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("error on id: " + id));
+    }
+
+    @Override
+    public Collection<Movie> findAll() {
+        return movieRepository.findAll();
     }
 }

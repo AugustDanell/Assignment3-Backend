@@ -1,5 +1,7 @@
 package a3.springweb.springweb.controller;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,12 @@ public class MovieController {
     @Autowired
     public MovieController(MovieService movieService) {
         this.movieService = movieService;
+    }
+
+    @Operation(summary = "Get all movies")
+    @GetMapping // GET: localhost:8080/api/v1/movies
+    public ResponseEntity<Collection<Movie>> getAll() {
+        return ResponseEntity.ok(movieService.findAll());
     }
 
     @GetMapping("{id}") // GET: localhost:8080/api/v1/movies/1
