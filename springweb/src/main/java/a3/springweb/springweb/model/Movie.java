@@ -46,7 +46,7 @@ public class Movie{
     private String trailer;
 
     @ManyToMany(mappedBy = "movies")
-    private Set<Character> characters;
+    private Set<MovieCharacter> characters;
 
     @ManyToOne
     @JoinColumn(name="franchise_id")
@@ -82,7 +82,7 @@ public class Movie{
     }
 
     @JsonIgnoreProperties("movies")
-    public Set<Character> getCharacters() {
+    public Set<MovieCharacter> getCharacters() {
         return characters;
     }
 

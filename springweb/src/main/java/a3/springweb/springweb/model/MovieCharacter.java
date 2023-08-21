@@ -14,9 +14,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 
 @Entity
-public class Character {
+@Table(name = "character")
+public class MovieCharacter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

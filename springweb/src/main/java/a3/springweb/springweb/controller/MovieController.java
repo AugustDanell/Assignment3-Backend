@@ -1,12 +1,18 @@
 package a3.springweb.springweb.controller;
 
+import java.net.URI;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import a3.springweb.springweb.model.Franchise;
@@ -36,5 +42,22 @@ public class MovieController {
     public ResponseEntity<Movie> getById(@PathVariable int id) {
         return ResponseEntity.ok(movieService.findById(id));
     }
+
+    @PostMapping // POST: localhost:8080/api/v1/movies
+    public ResponseEntity<Movie> add(@RequestBody Movie movie) {
+        Movie mov = movieService.add(movie);
+        URI location = URI.create("movies/" + mov.getId());
+        return ResponseEntity.created(location).build();
+    }
+
+    
+    @PutMapping("{id}")
+    public ResponseEntity update(@RequestBody Movie movie, @PathVariable int id) {
+        // Validates if body is correct
+        if (id != movie.getId())
+            return ResponseEntity.badRequest().build();
+        movieService.update(movie);
+        return ResponseEntity.noContent().build();
+}
 }
 

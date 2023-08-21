@@ -28,4 +28,14 @@ public class MovieServiceImpl implements MovieService {
     public Collection<Movie> findAll() {
         return movieRepository.findAll();
     }
+
+    @Override
+    public Movie add(Movie entity) {
+        return movieRepository.save(entity);
+    }
+
+    @Override
+    public Movie update(Movie entity) {
+        return movieRepository.save(entity);
+    }
 }

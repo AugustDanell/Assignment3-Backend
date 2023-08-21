@@ -29,4 +29,14 @@ public class FranchiseServiceImpl implements FranchiseService {
         return franchiseRepository.findAll();
     }
 
+    @Override
+    public Franchise add(Franchise entity) {
+        return franchiseRepository.save(entity);
+    }
+
+    @Override
+    public Franchise update(Franchise entity) {
+        return franchiseRepository.save(entity);
+    }
+
 }
