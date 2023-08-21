@@ -37,4 +37,12 @@ public class CharacterServiceImpl implements CharacterService{
     public MovieCharacter update(MovieCharacter entity) {
         return characterRepository.save(entity);
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        if (!characterRepository.existsById(id)) {
+            throw new IllegalArgumentException();
+        }
+        characterRepository.deleteById(id);
+    }
 }

@@ -3,8 +3,11 @@ package a3.springweb.springweb.controller;
 import java.net.URI;
 import java.util.Collection;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,6 +58,13 @@ public class CharacterController {
         if (id != movieCharacter.getId())
             return ResponseEntity.badRequest().build();
         characterService.update(movieCharacter);
+        return ResponseEntity.noContent().build();
+    }
+
+    @OnDelete(action= OnDeleteAction.CASCADE)
+    @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/students/1
+    public ResponseEntity<MovieCharacter> delete(@PathVariable int id) {
+        characterService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -38,4 +38,12 @@ public class MovieServiceImpl implements MovieService {
     public Movie update(Movie entity) {
         return movieRepository.save(entity);
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        if (!movieRepository.existsById(id)) {
+            throw new IllegalArgumentException();
+        }
+        movieRepository.deleteById(id);
+    }
 }

@@ -9,6 +9,7 @@ import org.hibernate.grammars.hql.HqlParser.FrameClauseContext;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -45,10 +46,10 @@ public class Movie{
     @Column()
     private String trailer;
 
-    @ManyToMany(mappedBy = "movies")
+    @ManyToMany(mappedBy = "movies", cascade = CascadeType.ALL)
     private Set<MovieCharacter> characters;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name="franchise_id")
     private Franchise franchise;
 

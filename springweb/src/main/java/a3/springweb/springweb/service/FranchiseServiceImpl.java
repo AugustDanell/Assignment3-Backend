@@ -39,4 +39,12 @@ public class FranchiseServiceImpl implements FranchiseService {
         return franchiseRepository.save(entity);
     }
 
+    @Override
+    public void deleteById(Integer id) {
+        if (!franchiseRepository.existsById(id)) {
+            throw new IllegalArgumentException();
+        }
+        franchiseRepository.deleteById(id);
+    }
+
 }
