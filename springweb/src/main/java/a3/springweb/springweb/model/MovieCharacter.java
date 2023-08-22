@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.annotation.Generated;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,11 +37,14 @@ public class MovieCharacter {
     @Column()
     private String url;
 
-    @ManyToMany
-    @JoinTable(name="character_movie", joinColumns = {@JoinColumn(name="character_id")}, inverseJoinColumns = {
-        @JoinColumn(name="movie_id")
-    })
+   
+    @ManyToMany(mappedBy = "characters")
     private Set<Movie> movies; 
+    /*@JoinTable(
+    name="character_movie", 
+    joinColumns = {@JoinColumn(name="character_id")}, 
+    inverseJoinColumns = {@JoinColumn(name="movie_id")
+    })*/
 
     public int getId(){
         return id;

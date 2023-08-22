@@ -1,6 +1,7 @@
 package a3.springweb.springweb.controller;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -76,9 +77,11 @@ public class MovieController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("update_characters/{id}")
-    public ResponseEntity updateCharacters(@RequestBody Movie movie, @PathVariable int id) {
-    return ResponseEntity.noContent().build();
+    @PutMapping("characters/{id}")
+    public ResponseEntity updateCharacters(@RequestBody int[] characterIds, @PathVariable int id) {
+        System.out.println("movie id: " + id + " chr ids: " + Arrays.toString(characterIds));
+        movieService.updateCharacters(characterIds, id);
+        return ResponseEntity.noContent().build();
     }
     
 }

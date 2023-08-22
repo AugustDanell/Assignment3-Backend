@@ -7,5 +7,5 @@ import a3.springweb.springweb.model.Movie;
 @Service
 public interface MovieService extends CrudService<Movie, Integer> {
 
-    Movie updateCharacters(Movie entity);
+    Movie updateCharacters(int[] charIds, int id);
 }

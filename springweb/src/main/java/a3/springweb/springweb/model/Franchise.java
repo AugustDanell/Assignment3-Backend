@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -25,7 +26,7 @@ public class Franchise {
     @Column
     private String description;
 
-    @OneToMany(mappedBy = "franchise", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "franchise")
     private Set<Movie> movies;
 
     public int getId() {
@@ -55,6 +56,11 @@ public class Franchise {
 
     public void setDescription(String description){
         this.description = description;
+    }
+
+    public void setMovies(Set<Movie> movies){
+        System.out.println("size of fat cow: " + movies.size());
+        this.movies = movies;
     }
 
 }

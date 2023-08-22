@@ -1,6 +1,7 @@
 package a3.springweb.springweb.controller;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.hibernate.annotations.OnDelete;
@@ -63,6 +64,12 @@ public class FranchiseController {
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/students/1
     public ResponseEntity<Franchise> delete(@PathVariable int id) {
         franchiseService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("movies/{id}")
+    public ResponseEntity updateCharacters(@RequestBody int[] movieIds, @PathVariable int id) {
+        franchiseService.updateMovies(movieIds, id);
         return ResponseEntity.noContent().build();
     }
 }

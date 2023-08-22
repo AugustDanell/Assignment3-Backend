@@ -19,10 +19,14 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.Setter;
 
 import a3.springweb.springweb.model.Franchise;
 
 @Entity
+@Getter
+@Setter
 public class Movie{
 
     @Id
@@ -47,7 +51,13 @@ public class Movie{
     @Column()
     private String trailer;
 
-    @ManyToMany(mappedBy = "movies", cascade = CascadeType.PERSIST)
+    //@ManyToMany(mappedBy = "movies", cascade = CascadeType.PERSIST)
+    @ManyToMany
+    @JoinTable(
+    name="character_movie", 
+    joinColumns = {@JoinColumn(name="movie_id")}, 
+    inverseJoinColumns = {@JoinColumn(name="character_id")
+    })
     private Set<MovieCharacter> characters;
 
     @ManyToOne()
@@ -85,6 +95,7 @@ public class Movie{
 
     @JsonIgnoreProperties("movies")
     public Set<MovieCharacter> getCharacters() {
+        //System.out.println(characters.size());
         return characters;
     }
 
@@ -121,4 +132,12 @@ public class Movie{
         this.trailer = trailer;
     }
 
+    public void setCharacters(Set<MovieCharacter> characters){
+        System.out.println(characters.size());
+        this.characters = characters;
+    }
+
+    public void setFranchise(Franchise franchise){
+        this.franchise = franchise;
+    }
 }
