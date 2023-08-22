@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Franchise {
     @Column
     private String description;
 
-    @OneToMany(mappedBy = "franchise")
+    @OneToMany(mappedBy = "franchise", cascade = CascadeType.PERSIST)
     private Set<Movie> movies;
 
     public int getId() {
@@ -42,6 +43,18 @@ public class Franchise {
     @JsonIgnoreProperties("characters")
     public Set<Movie> getMovies() {
         return movies;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
     }
 
 }

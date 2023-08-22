@@ -15,6 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -46,7 +47,7 @@ public class Movie{
     @Column()
     private String trailer;
 
-    @ManyToMany(mappedBy = "movies", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "movies", cascade = CascadeType.PERSIST)
     private Set<MovieCharacter> characters;
 
     @ManyToOne()
@@ -90,6 +91,34 @@ public class Movie{
     @JsonIgnoreProperties("movies")
     public Franchise getFranchise() {
         return franchise;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public void setTitle(String title){
+        this.title = title;
+    }
+
+    public void setGenre(String genre){
+        this.genre = genre;
+    }
+
+    public void setYear(int year){
+        this.year = year;
+    }
+
+    public void setDirector(String director){
+        this.director = director;
+    }
+
+    public void setPicture(String picture){
+        this.picture = picture;
+    }
+
+    public void setTrailer(String trailer){
+        this.trailer = trailer;
     }
 
 }

@@ -9,5 +9,7 @@ import a3.springweb.springweb.model.Movie;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
-    
+    /*@Modifying
+    @Query("UPDATE movie m SET character.id = ?2 WHERE s.id = ?1")
+    void updateMovieCharactersById(int movieId, int professorId);*/
 }

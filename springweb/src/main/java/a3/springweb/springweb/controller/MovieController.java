@@ -2,6 +2,10 @@ package a3.springweb.springweb.controller;
 
 import java.net.URI;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import a3.springweb.springweb.model.Franchise;
 import a3.springweb.springweb.model.Movie;
+import a3.springweb.springweb.model.MovieCharacter;
 import a3.springweb.springweb.service.FranchiseService;
 import a3.springweb.springweb.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -70,5 +75,11 @@ public class MovieController {
         movieService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("update_characters/{id}")
+    public ResponseEntity updateCharacters(@RequestBody Movie movie, @PathVariable int id) {
+    return ResponseEntity.noContent().build();
+    }
+    
 }
 

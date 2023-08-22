@@ -66,4 +66,24 @@ public class MovieCharacter {
     public Set<Movie> getMovies(){
         return movies;
     }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setAlias(String alias){
+        this.alias = alias;
+    }
+
+    public void setGender(String gender){
+        this.gender = gender;
+    }
+
+    public void setUrl(String url){
+        this.url = url;
+    }
 }
