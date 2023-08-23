@@ -29,6 +29,7 @@ public class Franchise {
     @OneToMany(mappedBy = "franchise")
     private Set<Movie> movies;
 
+    // Getters:
     public int getId() {
         return id;
     }
@@ -46,6 +47,7 @@ public class Franchise {
         return movies;
     }
 
+    // Setters:
     public void setId(int id){
         this.id = id;
     }

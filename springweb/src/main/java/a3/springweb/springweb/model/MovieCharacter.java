@@ -37,15 +37,10 @@ public class MovieCharacter {
     @Column()
     private String url;
 
-   
     @ManyToMany(mappedBy = "characters")
     private Set<Movie> movies; 
-    /*@JoinTable(
-    name="character_movie", 
-    joinColumns = {@JoinColumn(name="character_id")}, 
-    inverseJoinColumns = {@JoinColumn(name="movie_id")
-    })*/
 
+    // Getters:
     public int getId(){
         return id;
     }
@@ -71,6 +66,7 @@ public class MovieCharacter {
         return movies;
     }
 
+    // Setters:
     public void setId(int id){
         this.id = id;
     }

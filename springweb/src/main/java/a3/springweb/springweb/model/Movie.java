@@ -64,7 +64,7 @@ public class Movie{
     @JoinColumn(name="franchise_id")
     private Franchise franchise;
 
-
+    // Getters:
     public int getId() {
         return id;
     }
@@ -95,7 +95,6 @@ public class Movie{
 
     @JsonIgnoreProperties("movies")
     public Set<MovieCharacter> getCharacters() {
-        //System.out.println(characters.size());
         return characters;
     }
 
@@ -104,6 +103,7 @@ public class Movie{
         return franchise;
     }
 
+    // Setters:
     public void setId(int id){
         this.id = id;
     }
