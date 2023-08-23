@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import a3.springweb.springweb.model.Franchise;
-import a3.springweb.springweb.model.Movie;
+import a3.springweb.springweb.model.entities.Franchise;
+import a3.springweb.springweb.model.entities.Movie;
+import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.service.FranchiseService;
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -71,5 +72,15 @@ public class FranchiseController {
     public ResponseEntity updateCharacters(@RequestBody int[] movieIds, @PathVariable int id) {
         franchiseService.updateMovies(movieIds, id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("characters/{id}")
+    public ResponseEntity<Collection<MovieCharacter>> getCharactersInFranchise(@PathVariable int id){
+        return ResponseEntity.ok(franchiseService.displayCharacters(id));
+    }
+
+    @GetMapping("movies/{id}")
+    public ResponseEntity<Collection<Movie>> getMoviesInFranchise(@PathVariable int id){
+        return ResponseEntity.ok(franchiseService.displayMovies(id));
     }
 }

@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import a3.springweb.springweb.model.Movie;
+import a3.springweb.springweb.model.entities.Movie;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {

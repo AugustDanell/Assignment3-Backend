@@ -1,4 +1,4 @@
-package a3.springweb.springweb.model;
+package a3.springweb.springweb.model.entities;
 
 import jakarta.persistence.Entity;
 
@@ -21,8 +21,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
-
-import a3.springweb.springweb.model.Franchise;
 
 @Entity
 @Getter

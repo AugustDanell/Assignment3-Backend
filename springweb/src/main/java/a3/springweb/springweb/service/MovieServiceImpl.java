@@ -7,9 +7,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import a3.springweb.springweb.model.Franchise;
-import a3.springweb.springweb.model.Movie;
-import a3.springweb.springweb.model.MovieCharacter;
+import a3.springweb.springweb.model.entities.Franchise;
+import a3.springweb.springweb.model.entities.Movie;
+import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.repository.CharacterRepository;
 import a3.springweb.springweb.repository.MovieRepository;
 import a3.springweb.springweb.repository.MovieRepository;
@@ -28,9 +28,9 @@ public class MovieServiceImpl implements MovieService {
 
     /** 
      * findById
-     * A simple getter that returns the movie corrosponding to an id.
-     * @param id, The ID corrosponding to a movie that is to be returned
-     * @return The Movie corrosponding to the ID. 
+     * A simple getter that returns the movie corresponding to an id.
+     * @param id, The ID corresponding to a movie that is to be returned
+     * @return The Movie corresponding to the ID. 
      */
 
     @Override
@@ -72,7 +72,7 @@ public class MovieServiceImpl implements MovieService {
     /**
      * deleteById
      * Takes in an id and deletes the item with that id.
-     * @param id, the id corrosponding to the movie object.
+     * @param id, the id corresponding to the movie object.
      */
 
     @Override
@@ -86,14 +86,13 @@ public class MovieServiceImpl implements MovieService {
     /**
      * updateCharacters
      * This function takes in an array of characters IDs and a movie ID.
-     * For the movie corrosponding to the movie id, its characters are updated with the IDs inserted into this function.
-     * @param characterIds The ids corrosponding to the updated characters in the movie.
-     * @param movieId The id corrosponding to the movie to be updated.
+     * For the movie corresponding to the movie id, its characters are updated with the IDs inserted into this function.
+     * @param characterIds The ids corresponding to the updated characters in the movie.
+     * @param movieId The id corresponding to the movie to be updated.
      */
 
     @Override
     public Movie updateCharacters(int[] characterIds, int movieId) {
-       // return movieRepository.save(entity);
        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new IllegalArgumentException(null, null));
 
        Set<MovieCharacter> characters = new HashSet<>();
@@ -105,5 +104,12 @@ public class MovieServiceImpl implements MovieService {
 
        movie.setCharacters(characters);
        return movieRepository.save(movie);
+    }
+
+    @Override
+    public Collection<MovieCharacter> displayCharacters(int movieId){
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new IllegalArgumentException(null, null));
+        return movie.getCharacters();
+
     }
 }

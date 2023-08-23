@@ -23,9 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import a3.springweb.springweb.model.Franchise;
-import a3.springweb.springweb.model.Movie;
-import a3.springweb.springweb.model.MovieCharacter;
+import a3.springweb.springweb.mappers.MovieMapper;
+import a3.springweb.springweb.model.dtos.movie.MovieDTO;
+import a3.springweb.springweb.model.dtos.movie.MoviePostDTO;
+import a3.springweb.springweb.model.dtos.movie.MovieUpdateDTO;
+import a3.springweb.springweb.model.entities.Franchise;
+import a3.springweb.springweb.model.entities.Movie;
+import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.service.FranchiseService;
 import a3.springweb.springweb.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,26 +39,34 @@ import io.swagger.v3.oas.annotations.Operation;
 public class MovieController {
     
     private final MovieService movieService;
+    private final MovieMapper movieMapper;
 
     @Autowired
-    public MovieController(MovieService movieService) {
+    public MovieController(MovieService movieService, MovieMapper movieMapper) {
         this.movieService = movieService;
+        this.movieMapper = movieMapper;
     }
 
     @Operation(summary = "Get all movies")
     @GetMapping // GET: localhost:8080/api/v1/movies
-    public ResponseEntity<Collection<Movie>> getAll() {
-        return ResponseEntity.ok(movieService.findAll());
+    public ResponseEntity<Collection<MovieDTO>> getAll() {
+        return ResponseEntity.ok(
+            movieMapper.movieToMovieDto(
+                movieService.findAll()));
     }
 
     @GetMapping("{id}") // GET: localhost:8080/api/v1/movies/1
-    public ResponseEntity<Movie> getById(@PathVariable int id) {
-        return ResponseEntity.ok(movieService.findById(id));
+    public ResponseEntity<MovieDTO> getById(@PathVariable int id) {
+        return ResponseEntity.ok(
+            movieMapper.movieToMovieDto(
+                movieService.findById(id)));
     }
 
     @PostMapping // POST: localhost:8080/api/v1/movies
-    public ResponseEntity<Movie> add(@RequestBody Movie movie) {
-        Movie mov = movieService.add(movie);
+    public ResponseEntity<MoviePostDTO> add(@RequestBody MoviePostDTO movieDto) {
+        Movie mov = movieService.add(
+            movieMapper.moviePostDtoToMovie(movieDto)
+        );
         URI location = URI.create("movies/" + mov.getId());
         return ResponseEntity.created(location).build();
     }
@@ -82,6 +94,11 @@ public class MovieController {
         System.out.println("movie id: " + id + " chr ids: " + Arrays.toString(characterIds));
         movieService.updateCharacters(characterIds, id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("characters/{id}")
+    public ResponseEntity<Collection<MovieCharacter>> getCharactersInFranchise(@PathVariable int id){
+        return ResponseEntity.ok(movieService.displayCharacters(id));
     }
     
 }

@@ -4,9 +4,9 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import a3.springweb.springweb.model.MovieCharacter;
-import a3.springweb.springweb.model.Franchise;
-import a3.springweb.springweb.model.Movie;
+import a3.springweb.springweb.model.entities.Franchise;
+import a3.springweb.springweb.model.entities.Movie;
+import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.repository.CharacterRepository;
 
 @Service
@@ -20,7 +20,7 @@ public class CharacterServiceImpl implements CharacterService{
 
     /**
      * findById()
-     * Returns a MovieCharacter object corrosponding to a provided ID.
+     * Returns a MovieCharacter object corresponding to a provided ID.
      */
 
     @Override

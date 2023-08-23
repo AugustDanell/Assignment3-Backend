@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import a3.springweb.springweb.model.MovieCharacter;
-import a3.springweb.springweb.model.Movie;
+import a3.springweb.springweb.model.entities.Movie;
+import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.service.CharacterService;
 import io.swagger.v3.oas.annotations.Operation;
 

@@ -1,4 +1,4 @@
-package a3.springweb.springweb.model;
+package a3.springweb.springweb.model.entities;
 
 import java.util.Set;
 

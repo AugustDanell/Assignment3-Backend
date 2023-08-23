@@ -8,9 +8,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import a3.springweb.springweb.model.Franchise;
-import a3.springweb.springweb.model.Movie;
-import a3.springweb.springweb.model.MovieCharacter;
+import a3.springweb.springweb.model.entities.Franchise;
+import a3.springweb.springweb.model.entities.Movie;
+import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.repository.FranchiseRepository;
 import a3.springweb.springweb.repository.MovieRepository;
 
@@ -86,11 +86,11 @@ public class FranchiseServiceImpl implements FranchiseService {
     /**
      * updateMovies
      * A method that takes in an array of movie ids and a franchiseId.
-     * The Franchise object with the corrosponding franchiseId is extracted as franchise, and then we do two things with that:
+     * The Franchise object with the corresponding franchiseId is extracted as franchise, and then we do two things with that:
      * 1. First we remove its previous references, every movie pointing to franchise has their franchise reference set to null.
      * 2. We iterate over every movie extracted from movieIds and let them point to franchise.
-     * @param movieIds, An array of movie ids that are to be included in the franchise corrosponding to the inserted id.
-     * @param franchiseId, An id corrosponding to the franchise we want to have the movies inserted into. 
+     * @param movieIds, An array of movie ids that are to be included in the franchise corresponding to the inserted id.
+     * @param franchiseId, An id corresponding to the franchise we want to have the movies inserted into. 
      */
 
     @Override
@@ -110,12 +110,33 @@ public class FranchiseServiceImpl implements FranchiseService {
         movies.add(movie);
        }
 
-       //franchise.setMovies(movies);
        movies.forEach(m->{
         m.setFranchise(franchise);
        });
 
        return franchiseRepository.save(franchise);
+    }
+
+    @Override
+    public Collection<MovieCharacter> displayCharacters(int franchiseId){
+        List <Movie> allMovies = movieRepository.findAll();
+        HashSet <MovieCharacter> charactersInFranchise = new HashSet<>();
+        for(Movie movie : allMovies){
+            if(movie.getFranchise() != null && movie.getFranchise().getId() == franchiseId){
+                for(MovieCharacter character : movie.getCharacters()){
+                    charactersInFranchise.add(character);
+                }
+            }
+        }
+
+        return charactersInFranchise;
+    }
+
+    @Override
+    public Collection<Movie> displayMovies(int franchiseId){
+        Franchise franchise = franchiseRepository.findById(franchiseId).orElseThrow(() -> new IllegalArgumentException(null, null));
+        return franchise.getMovies();
+
     }
 
 }
