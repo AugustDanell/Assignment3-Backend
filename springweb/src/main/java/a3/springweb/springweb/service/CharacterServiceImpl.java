@@ -40,7 +40,8 @@ public class CharacterServiceImpl implements CharacterService{
 
     /**
      * add()
-     * 
+     * Adds a MovieCharacter entity to the database.
+     * @param entity, The entity object that is added.
      */
 
     @Override
@@ -48,10 +49,22 @@ public class CharacterServiceImpl implements CharacterService{
         return characterRepository.save(entity);
     }
 
+    /**
+     * update()
+     * Takes in a MovieCharacter entity and updates that entity in the database.
+     * @param entity, The entity that is updated.
+     */
+
     @Override
     public MovieCharacter update(MovieCharacter entity) {
         return characterRepository.save(entity);
     }
+
+    /**
+     * deleteById()
+     * Deletes a character in the database on the inserted ID.
+     * @param id, The id of the character to be deleted.
+     */
 
     @Override
     public void deleteById(Integer id) {
