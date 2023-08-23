@@ -12,11 +12,20 @@ Here are some endpoints that can be used to test the functionality of the projec
 
 3. Get all franchises: **(GET) localhost:8080/api/v1/franchises**
 
-4. Post a franchise: **(POST) localhost:8080/api/v1/movies**
+4. Post a franchise: **(POST) localhost:8080/api/v1/franchises**
 
 5. Update a franchise: **(PUT) localhost:8080/api/v1/franchises/{id}**
 
 6. Update movies in a franchise: **(PUT) localhost:8080/api/v1/franchises/movies/{id}**
+
+### Movie Endpoints:
+1. Get all Movies: **(GET) localhost:8080/api/v1/movies**
+
+2. Get specific Movie: **(GET) localhost:8080/api/v1/movies/1**
+
+3. Post a new Movie: **(POST) localhost:8080/api/v1/movies**
+
+4. 
 
 ## Installation
 1. Install Java version 17 (or later versions).
