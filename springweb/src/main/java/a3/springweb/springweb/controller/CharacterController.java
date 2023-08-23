@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import a3.springweb.springweb.mappers.CharacterMapper;
+import a3.springweb.springweb.model.dtos.character.CharacterDTO;
+import a3.springweb.springweb.model.dtos.character.CharacterPostDTO;
+import a3.springweb.springweb.model.dtos.character.CharacterUpdateDTO;
 import a3.springweb.springweb.model.entities.Movie;
 import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.service.CharacterService;
@@ -28,36 +32,48 @@ import io.swagger.v3.oas.annotations.Operation;
 public class CharacterController {
     
     private final CharacterService characterService;
+    private final CharacterMapper characterMapper;
 
     @Autowired
-    public CharacterController(CharacterService characterService) {
+    public CharacterController(CharacterService characterService, CharacterMapper characterMapper) {
         this.characterService = characterService;
+        this.characterMapper = characterMapper;
     }
 
     @Operation(summary = "Get all characters")
     @GetMapping // GET: localhost:8080/api/v1/movies
-    public ResponseEntity<Collection<MovieCharacter>> getAll() {
-        return ResponseEntity.ok(characterService.findAll());
+    public ResponseEntity<Collection<CharacterDTO>> getAll() {
+        return ResponseEntity.ok(
+            characterMapper.characterToCharacterDto(
+                characterService.findAll())
+            );
     }
 
     @GetMapping("{id}") // GET: localhost:8080/api/v1/movies/1
-    public ResponseEntity<MovieCharacter> getById(@PathVariable int id) {
-        return ResponseEntity.ok(characterService.findById(id));
+    public ResponseEntity<CharacterDTO> getById(@PathVariable int id) {
+        return ResponseEntity.ok(
+            characterMapper.characterToCharacterDto(
+                characterService.findById(id))
+            );
     }
 
     @PostMapping // POST: localhost:8080/api/v1/movies
-    public ResponseEntity<MovieCharacter> add(@RequestBody MovieCharacter character) {
-        MovieCharacter movieCharacter = characterService.add(character);
+    public ResponseEntity<CharacterPostDTO> add(@RequestBody CharacterPostDTO character) {
+        MovieCharacter movieCharacter = characterService.add(
+            characterMapper.characterPostDtoToCharacter(character)
+        );
         URI location = URI.create("characters/" + movieCharacter.getId());
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity update(@RequestBody MovieCharacter movieCharacter, @PathVariable int id) {
+    public ResponseEntity update(@RequestBody CharacterUpdateDTO characterDto, @PathVariable int id) {
         // Validates if body is correct
-        if (id != movieCharacter.getId())
+        if (id != characterDto.getId())
             return ResponseEntity.badRequest().build();
-        characterService.update(movieCharacter);
+        characterService.update(
+            characterMapper.characterUpdateDtoToCharacter(characterDto)
+        );
         return ResponseEntity.noContent().build();
     }
 

@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import a3.springweb.springweb.mappers.CharacterMapper;
 import a3.springweb.springweb.mappers.MovieMapper;
+import a3.springweb.springweb.model.dtos.character.CharacterDTO;
 import a3.springweb.springweb.model.dtos.movie.MovieDTO;
 import a3.springweb.springweb.model.dtos.movie.MoviePostDTO;
 import a3.springweb.springweb.model.dtos.movie.MovieUpdateDTO;
@@ -40,11 +42,13 @@ public class MovieController {
     
     private final MovieService movieService;
     private final MovieMapper movieMapper;
+    private final CharacterMapper characterMapper;
 
     @Autowired
-    public MovieController(MovieService movieService, MovieMapper movieMapper) {
+    public MovieController(MovieService movieService, MovieMapper movieMapper, CharacterMapper characterMapper) {
         this.movieService = movieService;
         this.movieMapper = movieMapper;
+        this.characterMapper = characterMapper;
     }
 
     @Operation(summary = "Get all movies")
@@ -73,32 +77,34 @@ public class MovieController {
 
     
     @PutMapping("{id}")
-    public ResponseEntity update(@RequestBody Movie movie, @PathVariable int id) {
+    public ResponseEntity update(@RequestBody MovieUpdateDTO movieDto, @PathVariable int id) {
         // Validates if body is correct
-        if (id != movie.getId())
+        if (id != movieDto.getId())
             return ResponseEntity.badRequest().build();
-        movieService.update(movie);
+        movieService.update(
+            movieMapper.movieUpdateDtoToMovie(movieDto)
+            );
         return ResponseEntity.noContent().build();
     }
 
     @OnDelete(action= OnDeleteAction.CASCADE)
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/students/1
     public ResponseEntity<Movie> delete(@PathVariable int id) {
-        System.out.println("id: " + id);
         movieService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("characters/{id}")
     public ResponseEntity updateCharacters(@RequestBody int[] characterIds, @PathVariable int id) {
-        System.out.println("movie id: " + id + " chr ids: " + Arrays.toString(characterIds));
         movieService.updateCharacters(characterIds, id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("characters/{id}")
-    public ResponseEntity<Collection<MovieCharacter>> getCharactersInFranchise(@PathVariable int id){
-        return ResponseEntity.ok(movieService.displayCharacters(id));
+    public ResponseEntity<Collection<CharacterDTO>> getCharactersInFranchise(@PathVariable int id){
+        return ResponseEntity.ok(
+            characterMapper.characterToCharacterDto(
+                movieService.displayCharacters(id)));
     }
     
 }

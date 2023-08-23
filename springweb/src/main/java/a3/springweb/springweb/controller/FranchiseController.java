@@ -17,6 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import a3.springweb.springweb.mappers.CharacterMapper;
+import a3.springweb.springweb.mappers.FranchiseMapper;
+import a3.springweb.springweb.mappers.MovieMapper;
+import a3.springweb.springweb.model.dtos.character.CharacterDTO;
+import a3.springweb.springweb.model.dtos.franchise.FranchiseDTO;
+import a3.springweb.springweb.model.dtos.franchise.FranchisePostDTO;
+import a3.springweb.springweb.model.dtos.franchise.FranchiseUpdateDTO;
+import a3.springweb.springweb.model.dtos.movie.MovieDTO;
 import a3.springweb.springweb.model.entities.Franchise;
 import a3.springweb.springweb.model.entities.Movie;
 import a3.springweb.springweb.model.entities.MovieCharacter;
@@ -28,36 +36,51 @@ import io.swagger.v3.oas.annotations.Operation;
 public class FranchiseController {
     
     private final FranchiseService franchiseService;
+    private final FranchiseMapper franchiseMapper;
+    private final CharacterMapper characterMapper;
+    private final MovieMapper movieMapper;
 
     @Autowired
-    public FranchiseController(FranchiseService franchiseService) {
+    public FranchiseController(FranchiseService franchiseService, FranchiseMapper franchiseMapper, CharacterMapper characterMapper, MovieMapper movieMapper) {
         this.franchiseService = franchiseService;
+        this.franchiseMapper = franchiseMapper;
+        this.characterMapper = characterMapper;
+        this.movieMapper = movieMapper;
     }
 
     @Operation(summary = "Get all franchises")
     @GetMapping // GET: localhost:8080/api/v1/movies
-    public ResponseEntity<Collection<Franchise>> getAll() {
-        return ResponseEntity.ok(franchiseService.findAll());
+    public ResponseEntity<Collection<FranchiseDTO>> getAll() {
+        return ResponseEntity.ok(
+            franchiseMapper.franchiseToFranchiseDto(
+                franchiseService.findAll()));
     }
 
     @GetMapping("{id}") // GET: localhost:8080/api/v1/franchises/1
-    public ResponseEntity<Franchise> getById(@PathVariable int id) {
-        return ResponseEntity.ok(franchiseService.findById(id));
+    public ResponseEntity<FranchiseDTO> getById(@PathVariable int id) {
+        return ResponseEntity.ok(
+            franchiseMapper.franchiseToFranchiseDto(
+                franchiseService.findById(id))
+            );
     }
 
-     @PostMapping // POST: localhost:8080/api/v1/movies
-    public ResponseEntity<Franchise> add(@RequestBody Franchise franchise) {
-        Franchise fran = franchiseService.add(franchise);
+    @PostMapping // POST: localhost:8080/api/v1/franchises
+    public ResponseEntity<FranchisePostDTO> add(@RequestBody FranchisePostDTO franchiseDto) {
+        Franchise fran = franchiseService.add(
+            franchiseMapper.franchisePostDtoToFranchise(franchiseDto)
+            );
         URI location = URI.create("franchises/" + fran.getId());
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity update(@RequestBody Franchise franchise, @PathVariable int id) {
+    public ResponseEntity update(@RequestBody FranchiseUpdateDTO franchiseDto, @PathVariable int id) {
         // Validates if body is correct
-        if (id != franchise.getId())
+        if (id != franchiseDto.getId())
             return ResponseEntity.badRequest().build();
-        franchiseService.update(franchise);
+        franchiseService.update(
+            franchiseMapper.franchiseUpdateDtoToFranchise(franchiseDto)
+        );
         return ResponseEntity.noContent().build();
     }
 
@@ -69,18 +92,24 @@ public class FranchiseController {
     }
 
     @PutMapping("movies/{id}")
-    public ResponseEntity updateCharacters(@RequestBody int[] movieIds, @PathVariable int id) {
+    public ResponseEntity updateMovies(@RequestBody int[] movieIds, @PathVariable int id) {
         franchiseService.updateMovies(movieIds, id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("characters/{id}")
-    public ResponseEntity<Collection<MovieCharacter>> getCharactersInFranchise(@PathVariable int id){
-        return ResponseEntity.ok(franchiseService.displayCharacters(id));
+    public ResponseEntity<Collection<CharacterDTO>> getCharactersInFranchise(@PathVariable int id){
+        return ResponseEntity.ok(
+            characterMapper.characterToCharacterDto(
+            franchiseService.displayCharacters(id))
+        );
     }
 
     @GetMapping("movies/{id}")
-    public ResponseEntity<Collection<Movie>> getMoviesInFranchise(@PathVariable int id){
-        return ResponseEntity.ok(franchiseService.displayMovies(id));
+    public ResponseEntity<Collection<MovieDTO>> getMoviesInFranchise(@PathVariable int id){
+        return ResponseEntity.ok(
+            movieMapper.movieToMovieDto(
+                franchiseService.displayMovies(id))
+            );
     }
 }
