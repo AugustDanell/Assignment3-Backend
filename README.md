@@ -6,12 +6,23 @@ This project is our solution to assignment 3, backend. When running the project 
 Here are some endpoints that can be used to test the functionality of the project.
 
 ### Franchise Endpoints:
-1. Get all Characters in a franchise (GET):            **localhost:8080/api/v1/franchises/characters/{id}** 
-2. Get a specific franchise according to id (GET):     **localhost:8080/api/v1/franchises/{id}**.
-3. Get all franchises (GET):                           **localhost:8080/api/v1/franchises**
-4. Post a franchise (POST):                            **localhost:8080/api/v1/movies**
-5. Update a franchise with the corresponding ID (PUT): **localhost:8080/api/v1/franchises/{id}**
-6. Update movies in a franchise (PUT):                 **localhost:8080/api/v1/franchises/movies/{id}**
+1. Get all Characters in a franchise (GET):
+   **localhost:8080/api/v1/franchises/characters/{id}** 
+
+2. Get a specific franchise according to id (GET):
+   **localhost:8080/api/v1/franchises/{id}**.
+
+3. Get all franchises (GET):
+   **localhost:8080/api/v1/franchises**
+
+4. Post a franchise (POST):
+   **localhost:8080/api/v1/movies**
+
+5. Update a franchise with the corresponding ID (PUT):
+   **localhost:8080/api/v1/franchises/{id}**
+
+6. Update movies in a franchise (PUT):
+   **localhost:8080/api/v1/franchises/movies/{id}**
 
 ## Installation
 1. Install Java version 17 (or later versions).
