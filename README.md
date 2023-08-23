@@ -4,8 +4,11 @@ This project is our solution to assignment 3, backend. When running the project 
 
 ## Endpoints
 ### Franchise Endpoints:
-1. *Get all Characters in a franchise (GET):* api/v1/franchises/characters/1 (Where 1 can be substituted with the corresponding id for a franchise).
-2. *Get a specific franchise (GET): api/v1/franchises/1* (Where 1 can be substituted with the corresponding id for a franchise).
+1. Get all Characters in a franchise (GET): **api/v1/franchises/characters/1** 
+(Where 1 can be substituted with the corresponding id for a franchise).
+
+2. Get a specific franchise (GET): **api/v1/franchises/1** 
+(Where 1 can be substituted with the corresponding id for a franchise).
 
 ## Installation
 1. Install Java version 17 (or later versions).
