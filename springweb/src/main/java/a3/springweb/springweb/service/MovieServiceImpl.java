@@ -26,25 +26,54 @@ public class MovieServiceImpl implements MovieService {
         this.characterRepository = characterRepository;
     }
 
+    /** 
+     * findById
+     * A simple getter that returns the movie corrosponding to an id.
+     * @param id, The ID corrosponding to a movie that is to be returned
+     * @return The Movie corrosponding to the ID. 
+     */
+
     @Override
     public Movie findById(Integer id){
         return movieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("error on id: " + id));
     }
+
+    /**
+     * findAll
+     * A getter that returns every movie currently in the database.
+     * @return A collection where every movie is contained (Collections can be Sets, Lists, etc).
+     */
 
     @Override
     public Collection<Movie> findAll() {
         return movieRepository.findAll();
     }
 
+    /**
+     * add
+     * A function that takes in a movie and adds it to the repository.
+     */
+
     @Override
     public Movie add(Movie entity) {
         return movieRepository.save(entity);
     }
 
+    /**
+     * update
+     * Updates the content of a movie object.
+     */
+
     @Override
     public Movie update(Movie entity) {
         return movieRepository.save(entity);
     }
+
+    /**
+     * deleteById
+     * Takes in an id and deletes the item with that id.
+     * @param id, the id corrosponding to the movie object.
+     */
 
     @Override
     public void deleteById(Integer id) {
@@ -53,6 +82,14 @@ public class MovieServiceImpl implements MovieService {
         }
         movieRepository.deleteById(id);
     }
+
+    /**
+     * updateCharacters
+     * This function takes in an array of characters IDs and a movie ID.
+     * For the movie corrosponding to the movie id, its characters are updated with the IDs inserted into this function.
+     * @param characterIds The ids corrosponding to the updated characters in the movie.
+     * @param movieId The id corrosponding to the movie to be updated.
+     */
 
     @Override
     public Movie updateCharacters(int[] characterIds, int movieId) {
@@ -64,8 +101,6 @@ public class MovieServiceImpl implements MovieService {
         MovieCharacter character = characterRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException(null, null));
         characters.add(character);
-        //System.out.println("Characters: "+characters.size());
-        //System.out.println("Character"+character);
        }
 
        movie.setCharacters(characters);
