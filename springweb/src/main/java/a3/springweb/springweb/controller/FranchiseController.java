@@ -7,6 +7,7 @@ import java.util.Collection;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,11 @@ import a3.springweb.springweb.model.entities.Movie;
 import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.service.FranchiseService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping(path = "api/v1/franchises")
@@ -56,12 +62,18 @@ public class FranchiseController {
      * @return A response entity with the collection of every franchise in the database.
      */
 
-    @Operation(summary = "Get all franchises")
-    @GetMapping // GET: localhost:8080/api/v1/movies
+    @Operation(summary = "Get all movies")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success", content = {
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
+            }),
+            @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
+    @GetMapping // GET: localhost:8080/api/v1/franchises
     public ResponseEntity<Collection<FranchiseDTO>> getAll() {
         return ResponseEntity.ok(
-            franchiseMapper.franchiseToFranchiseDto(
-                franchiseService.findAll()));
+                franchiseMapper.franchiseToFranchiseDto(
+                        franchiseService.findAll()));
     }
 
     /**
@@ -72,6 +84,14 @@ public class FranchiseController {
      * @return The response entity with a franchiseDTO, corresponding to id.
      */
 
+    @Operation(summary = "Get a franchise by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = FranchiseDTO.class)) }),
+            @ApiResponse(responseCode = "404", description = "Franchise does not exist with the given ID", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
     @GetMapping("{id}") // GET: localhost:8080/api/v1/franchises/1
     public ResponseEntity<FranchiseDTO> getById(@PathVariable int id) {
         return ResponseEntity.ok(
@@ -88,6 +108,13 @@ public class FranchiseController {
      * @return A response entity, corresponding to the success of the creation of a franchise.
      */
 
+    @Operation(summary = "Add a franchise")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Franchise created", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = FranchiseDTO.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+    })
     @PostMapping // POST: localhost:8080/api/v1/franchises
     public ResponseEntity<FranchisePostDTO> add(@RequestBody FranchisePostDTO franchiseDto) {
         Franchise fran = franchiseService.add(
@@ -106,7 +133,13 @@ public class FranchiseController {
      * @return The success of the updated.
      */
 
-    @PutMapping("{id}")
+    @Operation(summary = "Update a franchise")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Franchise successfully updated", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Franchise not found with the given id", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+    })
+    @PutMapping("{id}") // PUT: localhost:8080/api/v1/franchises/1
     public ResponseEntity update(@RequestBody FranchiseUpdateDTO franchiseDto, @PathVariable int id) {
         // Validates if body is correct
         if (id != franchiseDto.getId())
@@ -117,27 +150,46 @@ public class FranchiseController {
         return ResponseEntity.noContent().build();
     }
 
-
     /**
      * 
      * @param id
      * @return
      */
 
+    @Operation(summary = "Delete a franchise")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Franchise successfully deleted"),
+            @ApiResponse(responseCode = "400", description = "Malformed request"),
+            @ApiResponse(responseCode = "404", description = "Franchise not found with the given Id")
+    })
     @OnDelete(action= OnDeleteAction.CASCADE)
-    @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/students/1
+    @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/franchises/1
     public ResponseEntity<Franchise> delete(@PathVariable int id) {
         franchiseService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Update movies in a franchise")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Movies successfully updated", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Malformed request", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorAttributeOptions.class)) }),
+            @ApiResponse(responseCode = "404", description = "Franchise not found with the given ID", content = @Content)
+    })
     @PutMapping("movies/{id}")
     public ResponseEntity updateMovies(@RequestBody int[] movieIds, @PathVariable int id) {
         franchiseService.updateMovies(movieIds, id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("characters/{id}")
+    @Operation(summary = "Get all characters in a franchise")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success", content = {
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = CharacterDTO.class))) }),
+            @ApiResponse(responseCode = "404", description = "Franchise does not exist with the given ID", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @GetMapping("characters/{id}") //PUT: localhost:8080/api/v1/franchises/characters/1
     public ResponseEntity<Collection<CharacterDTO>> getCharactersInFranchise(@PathVariable int id){
         return ResponseEntity.ok(
             characterMapper.characterToCharacterDto(
@@ -145,7 +197,14 @@ public class FranchiseController {
         );
     }
 
-    @GetMapping("movies/{id}")
+    @Operation(summary = "Get all movies in a franchise")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success", content = {
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = CharacterDTO.class))) }),
+            @ApiResponse(responseCode = "404", description = "Franchise does not exist with the given ID", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @GetMapping("movies/{id}") //PUT: localhost:8080/api/v1/franchises/movies/1
     public ResponseEntity<Collection<MovieDTO>> getMoviesInFranchise(@PathVariable int id){
         return ResponseEntity.ok(
             movieMapper.movieToMovieDto(

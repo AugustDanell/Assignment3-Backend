@@ -22,10 +22,16 @@ import a3.springweb.springweb.mappers.CharacterMapper;
 import a3.springweb.springweb.model.dtos.character.CharacterDTO;
 import a3.springweb.springweb.model.dtos.character.CharacterPostDTO;
 import a3.springweb.springweb.model.dtos.character.CharacterUpdateDTO;
+import a3.springweb.springweb.model.dtos.movie.MovieDTO;
 import a3.springweb.springweb.model.entities.Movie;
 import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.service.CharacterService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping(path = "api/v1/characters")
@@ -48,7 +54,13 @@ public class CharacterController {
      */
 
     @Operation(summary = "Get all characters")
-    @GetMapping // GET: localhost:8080/api/v1/movies
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success", content = {
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = CharacterDTO.class)))
+            }),
+            @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
+    @GetMapping // GET: localhost:8080/api/v1/character
     public ResponseEntity<Collection<CharacterDTO>> getAll() {
         return ResponseEntity.ok(
             characterMapper.characterToCharacterDto(
@@ -65,7 +77,15 @@ public class CharacterController {
      * @return The response DTO entity.
      */
 
-    @GetMapping("{id}") // GET: localhost:8080/api/v1/movies/1
+    @Operation(summary = "Get a character by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = CharacterDTO.class)) }),
+            @ApiResponse(responseCode = "404", description = "Movie does not exist with the given ID", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) }), 
+            @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
+    @GetMapping("{id}") // GET: localhost:8080/api/v1/characters/1
     public ResponseEntity<CharacterDTO> getById(@PathVariable int id) {
         return ResponseEntity.ok(
             characterMapper.characterToCharacterDto(
@@ -81,11 +101,17 @@ public class CharacterController {
      * @return The response entity.
      */
 
-    @PostMapping // POST: localhost:8080/api/v1/movies
+    @Operation(summary = "Add a character")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Character created", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = CharacterDTO.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+    })
+    @PostMapping // POST: localhost:8080/api/v1/characters
     public ResponseEntity<CharacterPostDTO> add(@RequestBody CharacterPostDTO character) {
         MovieCharacter movieCharacter = characterService.add(
-            characterMapper.characterPostDtoToCharacter(character)
-        );
+                characterMapper.characterPostDtoToCharacter(character));
         URI location = URI.create("characters/" + movieCharacter.getId());
         return ResponseEntity.created(location).build();
     }
@@ -98,7 +124,13 @@ public class CharacterController {
      * @return The ResponseEntity
      */
 
-    @PutMapping("{id}")
+    @Operation(summary = "Update a character")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Character successfully updated", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Character not found with the given id", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+    })
+    @PutMapping("{id}") // PUT: localhost:8080/api/v1/characters/1
     public ResponseEntity update(@RequestBody CharacterUpdateDTO characterDto, @PathVariable int id) {
         // Validates if body is correct
         if (id != characterDto.getId())
@@ -116,9 +148,14 @@ public class CharacterController {
      * @param id
      * @return
      */
-    
+    @Operation(summary = "Delete a character")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Character successfully deleted"),
+            @ApiResponse(responseCode = "400", description = "Malformed request"),
+            @ApiResponse(responseCode = "404", description = "Character not found with the given Id")
+    })
     @OnDelete(action= OnDeleteAction.CASCADE)
-    @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/students/1
+    @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/characters/1
     public ResponseEntity<MovieCharacter> delete(@PathVariable int id) {
         characterService.deleteById(id);
         return ResponseEntity.noContent().build();

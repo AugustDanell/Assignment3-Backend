@@ -67,11 +67,11 @@ public class MovieController {
 
     @Operation(summary = "Get all movies")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
-        }),
-        @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
-})
+            @ApiResponse(responseCode = "200", description = "Success", content = {
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
+            }),
+            @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
     @GetMapping // GET: localhost:8080/api/v1/movies
     public ResponseEntity<Collection<MovieDTO>> getAll() {
         return ResponseEntity.ok(
@@ -142,7 +142,7 @@ public class MovieController {
             @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "Movie not found with the given id", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
     })
-    @PutMapping("{id}")
+    @PutMapping("{id}") // PUT: localhost:8080/api/v1/movies/1
     public ResponseEntity update(@RequestBody MovieUpdateDTO movieDto, @PathVariable int id) {
         // Validates if body is correct
         if (id != movieDto.getId())
@@ -168,7 +168,7 @@ public class MovieController {
             @ApiResponse(responseCode = "404", description = "Movie not found with the given Id")
     })
     @OnDelete(action= OnDeleteAction.CASCADE)
-    @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/students/1
+    @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/movies/1
     public ResponseEntity<Movie> delete(@PathVariable int id) {
         movieService.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -190,7 +190,7 @@ public class MovieController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorAttributeOptions.class)) }),
             @ApiResponse(responseCode = "404", description = "Movie not found with the given ID", content = @Content)
     })
-    @PutMapping("characters/{id}")
+    @PutMapping("characters/{id}") // PUT: localhost:8080/api/v1/movies/characters/1
     public ResponseEntity updateCharacters(@RequestBody int[] characterIds, @PathVariable int id) {
         movieService.updateCharacters(characterIds, id);
         return ResponseEntity.noContent().build();
@@ -203,7 +203,7 @@ public class MovieController {
             @ApiResponse(responseCode = "404", description = "Franchise does not exist with the given ID", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
-    @GetMapping("characters/{id}")
+    @GetMapping("characters/{id}") // PUT: localhost:8080/api/v1/movies/characters/1
     public ResponseEntity<Collection<CharacterDTO>> getCharactersInFranchise(@PathVariable int id){
         return ResponseEntity.ok(
             characterMapper.characterToCharacterDto(
