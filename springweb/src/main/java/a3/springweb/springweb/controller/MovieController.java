@@ -57,6 +57,14 @@ public class MovieController {
         this.characterMapper = characterMapper;
     }
 
+    /**
+     * getAll()
+     * Maps to a GET request.
+     * When a GET request is made on this endpoint every movie is returned as a collection of movie DTOs encapsulated
+     * in a response entity
+     * @return The response entity that encapsulates the collection of movies.
+     */
+
     @Operation(summary = "Get all movies")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success", content = {
@@ -70,6 +78,14 @@ public class MovieController {
             movieMapper.movieToMovieDto(
                 movieService.findAll()));
     }
+
+    /**
+     * getById()
+     * Maps to a GET request.
+     * A Movie is returned corresponding to an ID.
+     * @param Id, The id of the movie that is to be returned.
+     * @return The movie object. 
+     */
 
     @Operation(summary = "Get a movie by id")
     @ApiResponses(value = {
@@ -86,6 +102,14 @@ public class MovieController {
                 movieService.findById(id)));
     }
 
+    /**
+     * add()
+     * Maps to a POST request
+     * A movie is provided in the body and added to the database.
+     * @param movieDto
+     * @return A response entity for if the adding was successful.
+     */
+
     @Operation(summary = "Add a movie")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Movie created", content = {
@@ -101,6 +125,16 @@ public class MovieController {
         URI location = URI.create("movies/" + mov.getId());
         return ResponseEntity.created(location).build();
     }
+
+    /**
+     * update()
+     * Maps to a PUT request.
+     * Reads in an id in the path and an update in the body. If the two ids match an update is for the 
+     * movie DTO in the database.
+     * @param movieDto
+     * @param id
+     * @return
+     */
 
     @Operation(summary = "Update a movie")
     @ApiResponses(value = {
@@ -119,6 +153,14 @@ public class MovieController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * delete()
+     * Maps to a delete request.
+     * An id is inserted via the URL path, and a cascading delete is performed.
+     * @param id, The corresponding id.
+     * @return The response entity for if the operation was successful.
+     */
+
     @Operation(summary = "Delete a movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Movie successfully deleted"),
@@ -131,6 +173,15 @@ public class MovieController {
         movieService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * updateCharacters()
+     * A method that reads in an array of charater IDs in the body and a movie ID in the URL path.
+     * 
+     * @param characterIds
+     * @param id
+     * @return
+     */
 
     @Operation(summary = "Update characters in a movie")
     @ApiResponses(value = {
