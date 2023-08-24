@@ -48,6 +48,14 @@ public class FranchiseController {
         this.movieMapper = movieMapper;
     }
 
+
+    /**
+     * getAll()
+     * Maps to a GET request.
+     * Returns all franchises in the data base.
+     * @return A response entity with the collection of every franchise in the database.
+     */
+
     @Operation(summary = "Get all franchises")
     @GetMapping // GET: localhost:8080/api/v1/movies
     public ResponseEntity<Collection<FranchiseDTO>> getAll() {
@@ -55,6 +63,14 @@ public class FranchiseController {
             franchiseMapper.franchiseToFranchiseDto(
                 franchiseService.findAll()));
     }
+
+    /**
+     * getById()
+     * Maps to a GET request.
+     * Takes in an ID and returns a FranciseDTO corresponding to that id.
+     * @param id
+     * @return The response entity with a franchiseDTO, corresponding to id.
+     */
 
     @GetMapping("{id}") // GET: localhost:8080/api/v1/franchises/1
     public ResponseEntity<FranchiseDTO> getById(@PathVariable int id) {
@@ -64,6 +80,14 @@ public class FranchiseController {
             );
     }
 
+    /**
+     * add()
+     * Maps to a POST request.
+     * Adds a Franchise to the database.
+     * @param franchiseDto, A franchiseDTO that is inserted in the body of the request.
+     * @return A response entity, corresponding to the success of the creation of a franchise.
+     */
+
     @PostMapping // POST: localhost:8080/api/v1/franchises
     public ResponseEntity<FranchisePostDTO> add(@RequestBody FranchisePostDTO franchiseDto) {
         Franchise fran = franchiseService.add(
@@ -72,6 +96,15 @@ public class FranchiseController {
         URI location = URI.create("franchises/" + fran.getId());
         return ResponseEntity.created(location).build();
     }
+
+    /**
+     * update()
+     * Maps to a PUT request.
+     * Updates a franchise in the database.
+     * @param franchiseDto, A franchiseDTO that corresponds to a character that is to be updated.
+     * @param id, The id of the character object to be updated.
+     * @return The success of the updated.
+     */
 
     @PutMapping("{id}")
     public ResponseEntity update(@RequestBody FranchiseUpdateDTO franchiseDto, @PathVariable int id) {
@@ -83,6 +116,13 @@ public class FranchiseController {
         );
         return ResponseEntity.noContent().build();
     }
+
+
+    /**
+     * 
+     * @param id
+     * @return
+     */
 
     @OnDelete(action= OnDeleteAction.CASCADE)
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/students/1
