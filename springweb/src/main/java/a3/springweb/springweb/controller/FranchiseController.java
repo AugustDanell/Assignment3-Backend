@@ -28,8 +28,7 @@ import a3.springweb.springweb.model.dtos.franchise.FranchisePostDTO;
 import a3.springweb.springweb.model.dtos.franchise.FranchiseUpdateDTO;
 import a3.springweb.springweb.model.dtos.movie.MovieDTO;
 import a3.springweb.springweb.model.entities.Franchise;
-import a3.springweb.springweb.service.FranchiseService;
-
+import a3.springweb.springweb.service.franchise.FranchiseService;
 // Swagger imports (For API documentation):
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

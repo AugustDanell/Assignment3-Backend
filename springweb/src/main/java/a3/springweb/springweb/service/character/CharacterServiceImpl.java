@@ -1,4 +1,4 @@
-package a3.springweb.springweb.service;
+package a3.springweb.springweb.service.character;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

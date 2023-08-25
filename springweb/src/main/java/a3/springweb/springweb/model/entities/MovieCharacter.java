@@ -1,6 +1,6 @@
 package a3.springweb.springweb.model.entities;
 
-// Datastructures:
+// Data structures:
 import java.util.Set;
 
 // SpringBoot and Hibernate imports

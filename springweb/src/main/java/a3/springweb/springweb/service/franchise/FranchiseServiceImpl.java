@@ -1,4 +1,4 @@
-package a3.springweb.springweb.service;
+package a3.springweb.springweb.service.franchise;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -8,7 +8,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import a3.springweb.springweb.exception.CharacterNotFoundException;
 import a3.springweb.springweb.exception.FranchiseNotFoundException;
 import a3.springweb.springweb.exception.MovieNotFoundException;
 import a3.springweb.springweb.model.entities.Franchise;

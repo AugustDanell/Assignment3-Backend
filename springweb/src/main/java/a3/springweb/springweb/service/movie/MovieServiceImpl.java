@@ -1,4 +1,4 @@
-package a3.springweb.springweb.service;
+package a3.springweb.springweb.service.movie;
 
 // Datastructs
 import java.util.Collection;
