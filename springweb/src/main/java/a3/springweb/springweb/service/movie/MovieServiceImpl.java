@@ -112,6 +112,12 @@ public class MovieServiceImpl implements MovieService {
        return movieRepository.save(movie);
     }
 
+     /**
+     * displayCharacters
+     * Takes in an id of a movie and displaying its characters
+     * @param movieDd, the id corresponding to the movie object.
+     */
+
     @Override
     public Collection<MovieCharacter> displayCharacters(int movieId){
         Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));

@@ -59,7 +59,6 @@ public class Franchise {
     }
 
     public void setMovies(Set<Movie> movies){
-        System.out.println("size of fat cow: " + movies.size());
         this.movies = movies;
     }
 

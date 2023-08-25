@@ -131,6 +131,12 @@ public class Movie{
         this.franchise = franchise;
     }
 
+    /**
+     * shallowCopyNotNull()
+     * Takes in a new movie and copies its values onto this old movie, provided that they are not null (Shallow).
+     * @param newMovie, The movie entity corresponding to the movie that is to update this movie.
+     */
+    
     public void shallowCopyNotNull(Movie newMovie){
         
         // Not-Nullable:

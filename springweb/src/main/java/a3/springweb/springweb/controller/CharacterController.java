@@ -24,6 +24,7 @@ import a3.springweb.springweb.model.dtos.character.CharacterPostDTO;
 import a3.springweb.springweb.model.dtos.character.CharacterUpdateDTO;
 import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.service.character.CharacterService;
+
 // Swagger annotations import (For API Documentation)
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

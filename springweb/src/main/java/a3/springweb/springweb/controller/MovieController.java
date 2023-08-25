@@ -27,6 +27,7 @@ import a3.springweb.springweb.model.dtos.movie.MoviePostDTO;
 import a3.springweb.springweb.model.dtos.movie.MovieUpdateDTO;
 import a3.springweb.springweb.model.entities.Movie;
 import a3.springweb.springweb.service.movie.MovieService;
+
 // Swagger imports for API documentation:
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

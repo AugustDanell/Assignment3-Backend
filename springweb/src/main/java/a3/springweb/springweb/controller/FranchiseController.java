@@ -29,6 +29,7 @@ import a3.springweb.springweb.model.dtos.franchise.FranchiseUpdateDTO;
 import a3.springweb.springweb.model.dtos.movie.MovieDTO;
 import a3.springweb.springweb.model.entities.Franchise;
 import a3.springweb.springweb.service.franchise.FranchiseService;
+
 // Swagger imports (For API documentation):
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -79,7 +80,7 @@ public class FranchiseController {
     /**
      * getById()
      * Maps to a GET request.
-     * Takes in an ID and returns a FranciseDTO corresponding to that id.
+     * Takes in an ID and returns a FranchiseDTO corresponding to that id.
      * @param id
      * @return The response entity with a franchiseDTO, corresponding to id.
      */

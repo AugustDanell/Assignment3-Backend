@@ -99,12 +99,15 @@ public class FranchiseServiceImpl implements FranchiseService {
     public Franchise updateMovies(int[] movieIds, int franchiseId) {
        Franchise franchise = franchiseRepository.findById(franchiseId).orElseThrow(() -> new FranchiseNotFoundException(franchiseId));
        List<Movie> allMovies = movieRepository.findAll();
+       
+       // 1. Remove old references:
        for(Movie movie : allMovies){
         if(movie.getFranchise() != null && movie.getFranchise().getId() == franchiseId){
             movie.setFranchise(null);
         }
        }
        
+       // 2. Add new references according to the provided values:
        Set<Movie> movies = new HashSet<>();
        for(int id : movieIds){
         Movie movie = movieRepository.findById(id)
@@ -118,6 +121,14 @@ public class FranchiseServiceImpl implements FranchiseService {
 
        return franchiseRepository.save(franchise);
     }
+
+    /**
+     * displayCharacters()
+     * Displays every character in a franchise. Simply iterating over every movie in a franchise and for each movie iterate over each character.
+     * Put all of these characters in a set and return that.
+     * @param franchiseID, The id corresponding to the franchise that is sought after.
+     * @return charactersInFranchise, a set of all the characters in the movies that are in the franchise.
+     */
 
     @Override
     public Collection<MovieCharacter> displayCharacters(int franchiseId){
@@ -133,6 +144,13 @@ public class FranchiseServiceImpl implements FranchiseService {
 
         return charactersInFranchise;
     }
+
+    /**
+     * displayMovies()
+     * Gets the movies in a franchise
+     * @param franchiseId, The id corresponding to the wanted franchise
+     * @return The movies in that franchise.
+     */
 
     @Override
     public Collection<Movie> displayMovies(int franchiseId){
