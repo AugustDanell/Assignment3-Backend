@@ -2,6 +2,10 @@
 ## Description
 This project is our solution to assignment 3, backend. When running the project you can perform the HTTP requests according to the lab specification, just go to the right endpoint in something like postman and perform the correct HTTP method. 
 
+## Life Cycle of A HTTP Request (Class Diagram)
+![diagram](https://github.com/AugustDanell/Assignment3-Backend/assets/70810124/a09a1668-ba2c-4656-a7e3-3052df0899dd)
+
+
 ## Endpoints (where {id} is a specific primary key id)
 Here are some endpoints that can be used to test the functionality of the project.
 
