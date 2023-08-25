@@ -63,7 +63,7 @@ public class FranchiseController {
      * @return A response entity with the collection of every franchise in the database.
      */
 
-    @Operation(summary = "Get all movies")
+    @Operation(summary = "Get all franchises")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success", content = {
                     @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
