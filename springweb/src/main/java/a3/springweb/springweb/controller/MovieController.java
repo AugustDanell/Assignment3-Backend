@@ -137,7 +137,7 @@ public class MovieController {
             @ApiResponse(responseCode = "404", description = "Movie not found with the given id", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
     })
     @PutMapping("{id}") // PUT: localhost:8080/api/v1/movies/1
-    public ResponseEntity update(@RequestBody MovieUpdateDTO movieDto, @PathVariable int id) {
+    public ResponseEntity<MovieUpdateDTO> update(@RequestBody MovieUpdateDTO movieDto, @PathVariable int id) {
         // Validates if body is correct
         if (id != movieDto.getId())
             return ResponseEntity.badRequest().build();

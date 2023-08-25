@@ -13,7 +13,6 @@ import a3.springweb.springweb.model.dtos.franchise.FranchisePostDTO;
 import a3.springweb.springweb.model.dtos.franchise.FranchiseUpdateDTO;
 import a3.springweb.springweb.model.entities.Franchise;
 import a3.springweb.springweb.model.entities.Movie;
-import a3.springweb.springweb.model.entities.MovieCharacter;
 
 
 @Mapper(componentModel = "spring")

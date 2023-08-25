@@ -1,11 +1,7 @@
 package a3.springweb.springweb.service;
 import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import a3.springweb.springweb.model.entities.Franchise;
-import a3.springweb.springweb.model.entities.Movie;
 import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.repository.CharacterRepository;
 
@@ -21,6 +17,8 @@ public class CharacterServiceImpl implements CharacterService{
     /**
      * findById()
      * Returns a MovieCharacter object corresponding to a provided ID.
+     * @param id, A character id
+     * @return The character with the corresponding id in the DB, if it exists.
      */
 
     @Override
@@ -31,6 +29,7 @@ public class CharacterServiceImpl implements CharacterService{
     /**
      * findAll()
      * Returns a collection of every MovieCharacter found in the database.
+     * @return Every character in the DB.
      */
 
     @Override
@@ -42,6 +41,7 @@ public class CharacterServiceImpl implements CharacterService{
      * add()
      * Adds a MovieCharacter entity to the database.
      * @param entity, The entity object that is added.
+     * @return 
      */
 
     @Override
