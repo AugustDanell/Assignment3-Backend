@@ -22,6 +22,7 @@ import a3.springweb.springweb.mappers.CharacterMapper;
 import a3.springweb.springweb.model.dtos.character.CharacterDTO;
 import a3.springweb.springweb.model.dtos.character.CharacterPostDTO;
 import a3.springweb.springweb.model.dtos.character.CharacterUpdateDTO;
+import a3.springweb.springweb.model.entities.Movie;
 import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.service.character.CharacterService;
 
@@ -158,9 +159,18 @@ public class CharacterController {
     })
     @OnDelete(action= OnDeleteAction.CASCADE)
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/characters/1
-    public ResponseEntity<MovieCharacter> delete(@PathVariable int id) {
+   public ResponseEntity<MovieCharacter> delete(@PathVariable int id) {
+        MovieCharacter character = characterService.findById(id);
+        if (character == null) {
+            return ResponseEntity.notFound().build();
+        }
+        for (Movie movie : character.getMovies()) {
+            movie.getCharacters().remove(character);
+        }
+
         characterService.deleteById(id);
         return ResponseEntity.noContent().build();
+
     }
 }
 

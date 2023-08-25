@@ -1,19 +1,26 @@
 package a3.springweb.springweb.service.character;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import a3.springweb.springweb.exception.CharacterNotFoundException;
+import a3.springweb.springweb.model.entities.Movie;
 import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.repository.CharacterRepository;
+import a3.springweb.springweb.repository.MovieRepository;
 
 @Service
 public class CharacterServiceImpl implements CharacterService{
-      private final CharacterRepository characterRepository;
+    private final CharacterRepository characterRepository;
+    private final MovieRepository movieRepository;
 
     @Autowired
-    public CharacterServiceImpl(CharacterRepository characterRepository){
+    public CharacterServiceImpl(CharacterRepository characterRepository, MovieRepository movieRepository){
         this.characterRepository= characterRepository;
+        this.movieRepository = movieRepository;
     }
 
     /**
