@@ -50,7 +50,7 @@ public class CharacterController {
      * getAll()
      * Maps a GET request.
      * A controller function that maps a URL to the findAll function, via a characterDTO.
-     * With the characterDTO we can controll what is to be displayed.
+     * With the characterDTO we can control what is to be displayed.
      * @return A response entity that is a collection of Characters (DTOs)
      */
 
@@ -72,7 +72,7 @@ public class CharacterController {
 
     /**
      * getById()
-     * Maps a GET reqeusts.
+     * Maps a GET request.
      * Returns a response entity in the form of a character corresponding to an ID.
      * @param id, The id corresponding to a character in the database
      * @return The response DTO entity.

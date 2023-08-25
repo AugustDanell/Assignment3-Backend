@@ -8,6 +8,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import a3.springweb.springweb.exception.CharacterNotFoundException;
+import a3.springweb.springweb.exception.FranchiseNotFoundException;
+import a3.springweb.springweb.exception.MovieNotFoundException;
 import a3.springweb.springweb.model.entities.Franchise;
 import a3.springweb.springweb.model.entities.Movie;
 import a3.springweb.springweb.model.entities.MovieCharacter;
@@ -28,14 +31,14 @@ public class FranchiseServiceImpl implements FranchiseService {
 
     /**
      * findById
-     * Finds a Franchise object from the database corrosponding to a provided id.
+     * Finds a Franchise object from the database corresponding to a provided id.
      * @param id, The provided id to match on.
      * @return A Franchise object with said id.
      */
 
     @Override
     public Franchise findById(Integer id){
-        return franchiseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("error on id: " + id));
+        return franchiseRepository.findById(id).orElseThrow(() -> new FranchiseNotFoundException(id));
     }
 
     /**
@@ -78,7 +81,7 @@ public class FranchiseServiceImpl implements FranchiseService {
     @Override
     public void deleteById(Integer id) {
         if (!franchiseRepository.existsById(id)) {
-            throw new IllegalArgumentException();
+            throw new FranchiseNotFoundException(id);
         }
         franchiseRepository.deleteById(id);
     }
@@ -95,7 +98,7 @@ public class FranchiseServiceImpl implements FranchiseService {
 
     @Override
     public Franchise updateMovies(int[] movieIds, int franchiseId) {
-       Franchise franchise = franchiseRepository.findById(franchiseId).orElseThrow(() -> new IllegalArgumentException(null, null));
+       Franchise franchise = franchiseRepository.findById(franchiseId).orElseThrow(() -> new FranchiseNotFoundException(franchiseId));
        List<Movie> allMovies = movieRepository.findAll();
        for(Movie movie : allMovies){
         if(movie.getFranchise() != null && movie.getFranchise().getId() == franchiseId){
@@ -106,7 +109,7 @@ public class FranchiseServiceImpl implements FranchiseService {
        Set<Movie> movies = new HashSet<>();
        for(int id : movieIds){
         Movie movie = movieRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException(null, null));
+        .orElseThrow(() -> new MovieNotFoundException(id));
         movies.add(movie);
        }
 
@@ -134,7 +137,7 @@ public class FranchiseServiceImpl implements FranchiseService {
 
     @Override
     public Collection<Movie> displayMovies(int franchiseId){
-        Franchise franchise = franchiseRepository.findById(franchiseId).orElseThrow(() -> new IllegalArgumentException(null, null));
+        Franchise franchise = franchiseRepository.findById(franchiseId).orElseThrow(() -> new FranchiseNotFoundException(franchiseId));
         return franchise.getMovies();
 
     }

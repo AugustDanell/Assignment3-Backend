@@ -141,7 +141,7 @@ public class FranchiseController {
             @ApiResponse(responseCode = "404", description = "Franchise not found with the given id", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
     })
     @PutMapping("{id}") // PUT: localhost:8080/api/v1/franchises/1
-    public ResponseEntity update(@RequestBody FranchiseUpdateDTO franchiseDto, @PathVariable int id) {
+    public ResponseEntity<FranchiseUpdateDTO> update(@RequestBody FranchiseUpdateDTO franchiseDto, @PathVariable int id) {
         // Validates if body is correct
         if (id != franchiseDto.getId())
             return ResponseEntity.badRequest().build();
@@ -190,7 +190,7 @@ public class FranchiseController {
             @ApiResponse(responseCode = "404", description = "Franchise not found with the given ID", content = @Content)
     })
     @PutMapping("movies/{id}")
-    public ResponseEntity updateMovies(@RequestBody int[] movieIds, @PathVariable int id) {
+    public ResponseEntity<FranchiseDTO> updateMovies(@RequestBody int[] movieIds, @PathVariable int id) {
         franchiseService.updateMovies(movieIds, id);
         return ResponseEntity.noContent().build();
     }

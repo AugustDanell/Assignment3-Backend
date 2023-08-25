@@ -42,7 +42,6 @@ public class Movie{
     @Column()
     private String trailer;
 
-    //@ManyToMany(mappedBy = "movies", cascade = CascadeType.PERSIST)
     @ManyToMany
     @JoinTable(
     name="character_movie", 

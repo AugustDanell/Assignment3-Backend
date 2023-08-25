@@ -2,6 +2,8 @@ package a3.springweb.springweb.service;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import a3.springweb.springweb.exception.CharacterNotFoundException;
 import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.repository.CharacterRepository;
 
@@ -23,7 +25,7 @@ public class CharacterServiceImpl implements CharacterService{
 
     @Override
     public MovieCharacter findById(Integer id){
-        return characterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("error on id: " + id));
+        return characterRepository.findById(id).orElseThrow(() -> new CharacterNotFoundException(id));
     }
 
     /**
@@ -69,7 +71,7 @@ public class CharacterServiceImpl implements CharacterService{
     @Override
     public void deleteById(Integer id) {
         if (!characterRepository.existsById(id)) {
-            throw new IllegalArgumentException();
+            throw new CharacterNotFoundException(id);
         }
         characterRepository.deleteById(id);
     }

@@ -136,8 +136,8 @@ public class MovieController {
             @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "Movie not found with the given id", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
     })
-    @PutMapping("{id}")
-    public ResponseEntity update(@RequestBody MovieUpdateDTO movieDto, @PathVariable int id) {
+    @PutMapping("{id}")    
+    public ResponseEntity<MovieUpdateDTO> update(@RequestBody MovieUpdateDTO movieDto, @PathVariable int id) {
         // Validates if body is correct
         if (id != movieDto.getId())
             return ResponseEntity.badRequest().build();
@@ -186,27 +186,27 @@ public class MovieController {
             @ApiResponse(responseCode = "404", description = "Movie not found with the given ID", content = @Content)
     })
     @PutMapping("characters/{id}")
-    public ResponseEntity updateCharacters(@RequestBody int[] characterIds, @PathVariable int id) {
+    public ResponseEntity<MovieDTO> updateCharacters(@RequestBody int[] characterIds, @PathVariable int id) {
         movieService.updateCharacters(characterIds, id);
         return ResponseEntity.noContent().build();
     }
 
     /**
-     * getCharactersInFranchise
+     * getCharactersInMovie()
      * Maps a GET request.
-     * An id for the corresponding franchise is used to get the characters in that franchise.
+     * An id for the corresponding movie is used to get the characters in that movie.
      * @param id
-     * @return A collection of characters in the franchise. 
+     * @return A collection of characters in the movie. 
      */
-    @Operation(summary = "Get all characters in a franchise")
+    @Operation(summary = "Get all characters in a movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success", content = {
                     @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = CharacterDTO.class))) }),
-            @ApiResponse(responseCode = "404", description = "Franchise does not exist with the given ID", content = {
+            @ApiResponse(responseCode = "404", description = "Movie does not exist with the given ID", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @GetMapping("characters/{id}")
-    public ResponseEntity<Collection<CharacterDTO>> getCharactersInFranchise(@PathVariable int id){
+    public ResponseEntity<Collection<CharacterDTO>> getCharactersInMovie(@PathVariable int id){
         return ResponseEntity.ok(
             characterMapper.characterToCharacterDto(
                 movieService.displayCharacters(id)));

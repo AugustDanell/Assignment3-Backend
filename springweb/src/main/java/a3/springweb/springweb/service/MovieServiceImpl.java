@@ -9,6 +9,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import a3.springweb.springweb.exception.CharacterNotFoundException;
+import a3.springweb.springweb.exception.MovieNotFoundException;
 // Internal imports:
 import a3.springweb.springweb.model.entities.Movie;
 import a3.springweb.springweb.model.entities.MovieCharacter;
@@ -37,7 +39,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie findById(Integer id){
-        return movieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("error on id: " + id));
+        return movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
     }
 
     /**
@@ -80,7 +82,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void deleteById(Integer id) {
         if (!movieRepository.existsById(id)) {
-            throw new IllegalArgumentException();
+            throw new MovieNotFoundException(id);
         }
         movieRepository.deleteById(id);
     }
@@ -95,12 +97,12 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie updateCharacters(int[] characterIds, int movieId) {
-       Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new IllegalArgumentException(null, null));
+       Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
 
        Set<MovieCharacter> characters = new HashSet<>();
        for(int id : characterIds){
         MovieCharacter character = characterRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException(null, null));
+        .orElseThrow(() -> new CharacterNotFoundException(id));
         characters.add(character);
        }
 
@@ -110,7 +112,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Collection<MovieCharacter> displayCharacters(int movieId){
-        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new IllegalArgumentException(null, null));
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
         return movie.getCharacters();
 
     }
