@@ -40,6 +40,10 @@ Here are some endpoints that can be used to test the functionality of the projec
 
 3. Post a new Character: **(POST) localhost:8080/api/v1/character/{id}**
 
+4. Update a Character: **(PUT) localhost:8080/api/v1/characters/1**
+
+5. Delete a Character: **(DELETE) localhost:8080/api/v1/characters/1**
+
 
 ## Installation
 1. Install Java version 17 (or later versions).

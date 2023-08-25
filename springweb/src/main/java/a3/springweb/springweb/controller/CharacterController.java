@@ -118,6 +118,7 @@ public class CharacterController {
     }
 
     /**
+     * update()
      * Maps a PUT request.
      * A character is updated, given that the pathID match with the id in the body.
      * @param characterDto, The DTO for a character that is to be updated
