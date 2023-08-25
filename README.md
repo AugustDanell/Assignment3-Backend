@@ -2,10 +2,8 @@
 ## Description
 This project is our solution to assignment 3, backend. When running the project you can perform the HTTP requests according to the lab specification, just go to the right endpoint in something like postman and perform the correct HTTP method. When an endpoint is specified and a HTTP method is performed, for example in Postman, then a controller will map to that specific endpoint, and method. What then happens is that controller will perform a HTTP request with the user of services, which uses repositories that implement JPA repository. DTOs are also used in services to expose specific data encapsulating the entity models (Character, Movie, Franchise). Mapper objects are used to map from DTO to the entity. It is often said though that a picture can say more than 1000 words and so here below is a diagram of the structure:
 
-![diagram](https://github.com/AugustDanell/Assignment3-Backend/assets/70810124/d70f7c91-ddb6-4c49-ae56-c23de0ad0051)
-
 ## Life Cycle of A HTTP Request (Class Diagram)
-
+![diagram](https://github.com/AugustDanell/Assignment3-Backend/assets/70810124/d70f7c91-ddb6-4c49-ae56-c23de0ad0051)
 
 ## Endpoints (where {id} is a specific primary key id)
 Here are some endpoints that can be used to test the functionality of the project.
