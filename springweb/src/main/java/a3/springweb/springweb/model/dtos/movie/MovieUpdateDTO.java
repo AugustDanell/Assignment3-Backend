@@ -1,5 +1,8 @@
 package a3.springweb.springweb.model.dtos.movie;
 
+import java.util.Set;
+
+import a3.springweb.springweb.model.entities.MovieCharacter;
 import lombok.Data;
 
 @Data

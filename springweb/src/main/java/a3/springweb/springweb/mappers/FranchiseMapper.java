@@ -19,7 +19,10 @@ import a3.springweb.springweb.model.entities.Movie;
 public abstract class FranchiseMapper {
 
     // Mappings from DTO to franchise
+    @Mapping(target = "movies", ignore = true)
     public abstract Franchise franchisePostDtoToFranchise(FranchisePostDTO franchisePostDTO);
+
+    @Mapping(target = "movies", ignore = true)
     public abstract Franchise franchiseUpdateDtoToFranchise(FranchiseUpdateDTO franchiseUpdateDTO);
     
     // Mappings from franchise to DTO
