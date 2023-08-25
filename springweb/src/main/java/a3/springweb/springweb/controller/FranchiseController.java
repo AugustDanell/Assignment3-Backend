@@ -151,9 +151,11 @@ public class FranchiseController {
     }
 
     /**
-     * 
-     * @param id
-     * @return
+     * delete()
+     * Maps to a DELETE request.
+     * Takes in an id via the URL path and removes the corresponding franchise from the DB.
+     * @param id, The id of the franchise to be removed.
+     * @return A Response Entity, telling us the success of the operation.
      */
 
     @Operation(summary = "Delete a franchise")
@@ -169,6 +171,16 @@ public class FranchiseController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * updateMovies()
+     * Maps to a PUT request.
+     * Take in a id via the URL path and an array of integers (movie ids) provided via the body of the request.
+     * For every movie id, that movie is inserted into the franchise.
+     * @param movieIds, The int[] array of movie ids.
+     * @param id, The ID corresponding to a franchise in the DB.
+     * @return A Response Entity, telling us the success of the operation. 
+     */
+
     @Operation(summary = "Update movies in a franchise")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Movies successfully updated", content = @Content),
@@ -181,6 +193,15 @@ public class FranchiseController {
         franchiseService.updateMovies(movieIds, id);
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * getCharactersInFranchise()
+     * Maps to a GET request.
+     * Takes in an id in the path corresponding to the id of a franchise.
+     * For this franchise, every character is returned, for every movie in the franchise.
+     * @param id, The franchise ID corresponding to the wanted franchise
+     * @return A response entity, telling us if the operation was successful.
+     */ 
 
     @Operation(summary = "Get all characters in a franchise")
     @ApiResponses(value = {
@@ -197,6 +218,15 @@ public class FranchiseController {
         );
     }
 
+
+    /**
+     * getMoviesInFranchise
+     * Maps to a GET request.
+     * Takes in a franchise ID via the URL pathing. This ID is then subsequently used to get every movie from the DB
+     * belonging to a franchise corresponding to the inserted ID.
+     * @param id, The id corresponding to the wanted franchise.
+     * @return A Response Entity telling us the success of the operation.
+     */
     @Operation(summary = "Get all movies in a franchise")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success", content = {
@@ -204,7 +234,7 @@ public class FranchiseController {
             @ApiResponse(responseCode = "404", description = "Franchise does not exist with the given ID", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
-    @GetMapping("movies/{id}") //PUT: localhost:8080/api/v1/franchises/movies/1
+    @GetMapping("movies/{id}") //GET: localhost:8080/api/v1/franchises/movies/1
     public ResponseEntity<Collection<MovieDTO>> getMoviesInFranchise(@PathVariable int id){
         return ResponseEntity.ok(
             movieMapper.movieToMovieDto(

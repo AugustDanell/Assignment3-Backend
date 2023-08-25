@@ -16,16 +16,25 @@ Here are some endpoints that can be used to test the functionality of the projec
 
 5. Update a franchise: **(PUT) localhost:8080/api/v1/franchises/{id}**
 
-6. Update movies in a franchise: **(PUT) localhost:8080/api/v1/franchises/movies/{id}**
+6. Delete a franchise: **(DELETE) localhost:8080/api/v1/franchises/{id}**
+
+7. Update movies in a franchise: **(PUT) localhost:8080/api/v1/franchises/movies/{id}**
 
 ### Movie Endpoints:
 1. Get all Movies: **(GET) localhost:8080/api/v1/movies**
 
-2. Get specific Movie: **(GET) localhost:8080/api/v1/movies/1**
+2. Get specific Movie: **(GET) localhost:8080/api/v1/movies/{id}**
 
 3. Post a new Movie: **(POST) localhost:8080/api/v1/movies**
 
-4. 
+4. Update a new Movie: **(PUT) localhost:8080/api/v1/movies/{id}**
+
+5. Delete a Movie: **(DELETE) localhost:8080/api/v1/movies/{id}**
+
+6. Update characters in Movie: **(PUT) localhost:8080/api/v1/movies/characters/1**
+
+### Character Endpoints:
+
 
 ## Installation
 1. Install Java version 17 (or later versions).

@@ -3,6 +3,7 @@ package a3.springweb.springweb.controller;
 import java.net.URI;
 import java.util.Collection;
 
+// SpringBoot and Hibernate imports:
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +17,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+// Internal imports:
 import a3.springweb.springweb.mappers.CharacterMapper;
 import a3.springweb.springweb.model.dtos.character.CharacterDTO;
 import a3.springweb.springweb.model.dtos.character.CharacterPostDTO;
 import a3.springweb.springweb.model.dtos.character.CharacterUpdateDTO;
-import a3.springweb.springweb.model.dtos.movie.MovieDTO;
-import a3.springweb.springweb.model.entities.Movie;
 import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.service.CharacterService;
+
+// Swagger annotations import (For API Documentation)
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -131,7 +131,7 @@ public class CharacterController {
             @ApiResponse(responseCode = "404", description = "Character not found with the given id", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
     })
     @PutMapping("{id}") // PUT: localhost:8080/api/v1/characters/1
-    public ResponseEntity update(@RequestBody CharacterUpdateDTO characterDto, @PathVariable int id) {
+    public ResponseEntity<MovieCharacter> update(@RequestBody CharacterUpdateDTO characterDto, @PathVariable int id) {
         // Validates if body is correct
         if (id != characterDto.getId())
             return ResponseEntity.badRequest().build();
