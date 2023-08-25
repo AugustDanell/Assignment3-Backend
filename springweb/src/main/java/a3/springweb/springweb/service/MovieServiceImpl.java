@@ -1,18 +1,20 @@
 package a3.springweb.springweb.service;
 
+// Datastructs
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+// SpringBoot and Hibernate imports
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import a3.springweb.springweb.model.entities.Franchise;
+// Internal imports:
 import a3.springweb.springweb.model.entities.Movie;
 import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.repository.CharacterRepository;
 import a3.springweb.springweb.repository.MovieRepository;
-import a3.springweb.springweb.repository.MovieRepository;
+
 
 @Service
 public class MovieServiceImpl implements MovieService {
