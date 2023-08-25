@@ -130,4 +130,24 @@ public class Movie{
     public void setFranchise(Franchise franchise){
         this.franchise = franchise;
     }
+
+    public void shallowCopyNotNull(Movie newMovie){
+        
+        // Not-Nullable:
+        this.title = newMovie.getTitle();
+        this.year = newMovie.getYear();
+        this.director = newMovie.getDirector();
+
+        if(newMovie.getGenre() != null){
+            this.genre = newMovie.getGenre();
+        }
+
+        if(newMovie.getPicture() != null){
+            this.picture = newMovie.getPicture();
+        }
+
+        if(newMovie.getTrailer() != null){
+            this.trailer = newMovie.getTrailer();
+        }
+    }
 }

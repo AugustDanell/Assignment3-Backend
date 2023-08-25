@@ -69,8 +69,10 @@ public class MovieServiceImpl implements MovieService {
      */
 
     @Override
-    public Movie update(Movie entity) {
-        return movieRepository.save(entity);
+    public Movie update(Movie newMovie) {
+        Movie oldMovie = movieRepository.findById(newMovie.getId()).orElseThrow(() -> new MovieNotFoundException(newMovie.getId()));
+        oldMovie.shallowCopyNotNull(newMovie);
+        return movieRepository.save(oldMovie);
     }
 
     /**
