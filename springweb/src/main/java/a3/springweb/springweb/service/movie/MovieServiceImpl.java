@@ -17,7 +17,6 @@ import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.repository.CharacterRepository;
 import a3.springweb.springweb.repository.MovieRepository;
 
-
 @Service
 public class MovieServiceImpl implements MovieService {
 
@@ -25,27 +24,30 @@ public class MovieServiceImpl implements MovieService {
     private final CharacterRepository characterRepository;
 
     @Autowired
-    public MovieServiceImpl(MovieRepository movieRepository, CharacterRepository characterRepository){
+    public MovieServiceImpl(MovieRepository movieRepository, CharacterRepository characterRepository) {
         this.movieRepository = movieRepository;
         this.characterRepository = characterRepository;
     }
 
-    /** 
+    /**
      * findById
      * A simple getter that returns the movie corresponding to an id.
+     * 
      * @param id, The ID corresponding to a movie that is to be returned
-     * @return The Movie corresponding to the ID. 
+     * @return The Movie corresponding to the ID.
      */
 
     @Override
-    public Movie findById(Integer id){
+    public Movie findById(Integer id) {
         return movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
     }
 
     /**
      * findAll
      * A getter that returns every movie currently in the database.
-     * @return A collection where every movie is contained (Collections can be Sets, Lists, etc).
+     * 
+     * @return A collection where every movie is contained (Collections can be Sets,
+     *         Lists, etc).
      */
 
     @Override
@@ -70,7 +72,8 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie update(Movie newMovie) {
-        Movie oldMovie = movieRepository.findById(newMovie.getId()).orElseThrow(() -> new MovieNotFoundException(newMovie.getId()));
+        Movie oldMovie = movieRepository.findById(newMovie.getId())
+                .orElseThrow(() -> new MovieNotFoundException(newMovie.getId()));
         oldMovie.shallowCopyNotNull(newMovie);
         return movieRepository.save(oldMovie);
     }
@@ -78,6 +81,7 @@ public class MovieServiceImpl implements MovieService {
     /**
      * deleteById
      * Takes in an id and deletes the item with that id.
+     * 
      * @param id, the id corresponding to the movie object.
      */
 
@@ -92,34 +96,38 @@ public class MovieServiceImpl implements MovieService {
     /**
      * updateCharacters
      * This function takes in an array of characters IDs and a movie ID.
-     * For the movie corresponding to the movie id, its characters are updated with the IDs inserted into this function.
-     * @param characterIds The ids corresponding to the updated characters in the movie.
-     * @param movieId The id corresponding to the movie to be updated.
+     * For the movie corresponding to the movie id, its characters are updated with
+     * the IDs inserted into this function.
+     * 
+     * @param characterIds The ids corresponding to the updated characters in the
+     *                     movie.
+     * @param movieId      The id corresponding to the movie to be updated.
      */
 
     @Override
     public Movie updateCharacters(int[] characterIds, int movieId) {
-       Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
 
-       Set<MovieCharacter> characters = new HashSet<>();
-       for(int id : characterIds){
-        MovieCharacter character = characterRepository.findById(id)
-        .orElseThrow(() -> new CharacterNotFoundException(id));
-        characters.add(character);
-       }
+        Set<MovieCharacter> characters = new HashSet<>();
+        for (int id : characterIds) {
+            MovieCharacter character = characterRepository.findById(id)
+                    .orElseThrow(() -> new CharacterNotFoundException(id));
+            characters.add(character);
+        }
 
-       movie.setCharacters(characters);
-       return movieRepository.save(movie);
+        movie.setCharacters(characters);
+        return movieRepository.save(movie);
     }
 
-     /**
+    /**
      * displayCharacters
      * Takes in an id of a movie and displaying its characters
+     * 
      * @param movieDd, the id corresponding to the movie object.
      */
 
     @Override
-    public Collection<MovieCharacter> displayCharacters(int movieId){
+    public Collection<MovieCharacter> displayCharacters(int movieId) {
         Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
         return movie.getCharacters();
 

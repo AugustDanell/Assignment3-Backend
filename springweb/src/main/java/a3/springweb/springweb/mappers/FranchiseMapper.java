@@ -14,7 +14,6 @@ import a3.springweb.springweb.model.dtos.franchise.FranchiseUpdateDTO;
 import a3.springweb.springweb.model.entities.Franchise;
 import a3.springweb.springweb.model.entities.Movie;
 
-
 @Mapper(componentModel = "spring")
 public abstract class FranchiseMapper {
 
@@ -24,18 +23,18 @@ public abstract class FranchiseMapper {
 
     @Mapping(target = "movies", ignore = true)
     public abstract Franchise franchiseUpdateDtoToFranchise(FranchiseUpdateDTO franchiseUpdateDTO);
-    
+
     // Mappings from franchise to DTO
     public abstract Collection<FranchiseDTO> franchiseToFranchiseDto(Collection<Franchise> franchises);
-    
-    @Mapping(target="movies", source="movies", qualifiedByName = "moviesToMovieIds")
+
+    @Mapping(target = "movies", source = "movies", qualifiedByName = "moviesToMovieIds")
     public abstract FranchiseDTO franchiseToFranchiseDto(Franchise franchise);
 
     @Named("moviesToMovieIds")
     Set<Integer> mapMoviesToIds(Set<Movie> source) {
-        if (source == null) return null;
+        if (source == null)
+            return null;
         return source.stream().map(
-                m -> m.getId()
-        ).collect(Collectors.toSet());
+                m -> m.getId()).collect(Collectors.toSet());
     }
 }

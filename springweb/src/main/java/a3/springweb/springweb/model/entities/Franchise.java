@@ -13,7 +13,7 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class Franchise {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -46,19 +46,19 @@ public class Franchise {
     }
 
     // Setters:
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setDescription(String description){
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setMovies(Set<Movie> movies){
+    public void setMovies(Set<Movie> movies) {
         this.movies = movies;
     }
 

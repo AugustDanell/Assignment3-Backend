@@ -34,52 +34,52 @@ public class MovieCharacter {
     private String url;
 
     @ManyToMany(mappedBy = "characters")
-    private Set<Movie> movies; 
+    private Set<Movie> movies;
 
     // Getters:
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public String getAlias(){
+    public String getAlias() {
         return alias;
     }
 
-    public String getGender(){
+    public String getGender() {
         return gender;
     }
 
-    public String getUrl(){
+    public String getUrl() {
         return url;
     }
 
     @JsonIgnoreProperties("characters")
-    public Set<Movie> getMovies(){
+    public Set<Movie> getMovies() {
         return movies;
     }
 
     // Setters:
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setAlias(String alias){
+    public void setAlias(String alias) {
         this.alias = alias;
     }
 
-    public void setGender(String gender){
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public void setUrl(String url){
+    public void setUrl(String url) {
         this.url = url;
     }
 }

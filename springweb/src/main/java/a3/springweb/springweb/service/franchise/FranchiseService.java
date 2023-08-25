@@ -10,10 +10,11 @@ import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.service.CrudService;
 
 @Service
-public interface FranchiseService extends CrudService<Franchise, Integer>  {
-    
-    Franchise updateMovies(int[] movieIds, int franchiseId); 
+public interface FranchiseService extends CrudService<Franchise, Integer> {
+
+    Franchise updateMovies(int[] movieIds, int franchiseId);
 
     Collection<MovieCharacter> displayCharacters(int franchiseId);
+
     Collection<Movie> displayMovies(int franchiseId);
 }

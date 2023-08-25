@@ -37,7 +37,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RestController
 @RequestMapping(path = "api/v1/characters")
 public class CharacterController {
-    
+
     private final CharacterService characterService;
     private final CharacterMapper characterMapper;
 
@@ -50,8 +50,10 @@ public class CharacterController {
     /**
      * getAll()
      * Maps a GET request.
-     * A controller function that maps a URL to the findAll function, via a characterDTO.
+     * A controller function that maps a URL to the findAll function, via a
+     * characterDTO.
      * With the characterDTO we can control what is to be displayed.
+     * 
      * @return A response entity that is a collection of Characters (DTOs)
      */
 
@@ -65,16 +67,15 @@ public class CharacterController {
     @GetMapping // GET: localhost:8080/api/v1/character
     public ResponseEntity<Collection<CharacterDTO>> getAll() {
         return ResponseEntity.ok(
-            characterMapper.characterToCharacterDto(
-                characterService.findAll())
-            );
+                characterMapper.characterToCharacterDto(
+                        characterService.findAll()));
     }
-
 
     /**
      * getById()
      * Maps a GET request.
      * Returns a response entity in the form of a character corresponding to an ID.
+     * 
      * @param id, The id corresponding to a character in the database
      * @return The response DTO entity.
      */
@@ -84,21 +85,21 @@ public class CharacterController {
             @ApiResponse(responseCode = "200", description = "Success", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = CharacterDTO.class)) }),
             @ApiResponse(responseCode = "404", description = "Movie does not exist with the given ID", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) }), 
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) }),
             @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
     })
     @GetMapping("{id}") // GET: localhost:8080/api/v1/characters/1
     public ResponseEntity<CharacterDTO> getById(@PathVariable int id) {
         return ResponseEntity.ok(
-            characterMapper.characterToCharacterDto(
-                characterService.findById(id))
-            );
+                characterMapper.characterToCharacterDto(
+                        characterService.findById(id)));
     }
 
     /**
      * add()
      * Maps a POST request.
      * A character is inserted into the database via the POST method.
+     * 
      * @param character, The characterDTO entity that is inserted.
      * @return The response entity.
      */
@@ -122,8 +123,9 @@ public class CharacterController {
      * update()
      * Maps a PUT request.
      * A character is updated, given that the pathID match with the id in the body.
+     * 
      * @param characterDto, The DTO for a character that is to be updated
-     * @param id, An id corresponding to the character.
+     * @param id,           An id corresponding to the character.
      * @return The ResponseEntity.
      */
 
@@ -139,8 +141,7 @@ public class CharacterController {
         if (id != characterDto.getId())
             return ResponseEntity.badRequest().build();
         characterService.update(
-            characterMapper.characterUpdateDtoToCharacter(characterDto)
-        );
+                characterMapper.characterUpdateDtoToCharacter(characterDto));
         return ResponseEntity.noContent().build();
     }
 
@@ -148,6 +149,7 @@ public class CharacterController {
      * delete()
      * Maps a DELETE request.
      * Takes in an ID and removes the character with that id.
+     * 
      * @param id, the id corresponding to the character to be removed in the DB.
      * @return A response entity, encapsulating the success of the removal.
      */
@@ -157,9 +159,9 @@ public class CharacterController {
             @ApiResponse(responseCode = "400", description = "Malformed request"),
             @ApiResponse(responseCode = "404", description = "Character not found with the given Id")
     })
-    @OnDelete(action= OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/characters/1
-   public ResponseEntity<MovieCharacter> delete(@PathVariable int id) {
+    public ResponseEntity<MovieCharacter> delete(@PathVariable int id) {
         MovieCharacter character = characterService.findById(id);
         if (character == null) {
             return ResponseEntity.notFound().build();
@@ -173,4 +175,3 @@ public class CharacterController {
 
     }
 }
-

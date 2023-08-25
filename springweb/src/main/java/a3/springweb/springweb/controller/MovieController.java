@@ -39,7 +39,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RestController
 @RequestMapping(path = "api/v1/movies")
 public class MovieController {
-    
+
     private final MovieService movieService;
     private final MovieMapper movieMapper;
     private final CharacterMapper characterMapper;
@@ -54,31 +54,34 @@ public class MovieController {
     /**
      * getAll()
      * Maps to a GET request.
-     * When a GET request is made on this endpoint every movie is returned as a collection of movie DTOs encapsulated
+     * When a GET request is made on this endpoint every movie is returned as a
+     * collection of movie DTOs encapsulated
      * in a response entity
+     * 
      * @return The response entity that encapsulates the collection of movies.
      */
 
     @Operation(summary = "Get all movies")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
-        }),
-        @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
-})
+            @ApiResponse(responseCode = "200", description = "Success", content = {
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
+            }),
+            @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
     @GetMapping // GET: localhost:8080/api/v1/movies
     public ResponseEntity<Collection<MovieDTO>> getAll() {
         return ResponseEntity.ok(
-            movieMapper.movieToMovieDto(
-                movieService.findAll()));
+                movieMapper.movieToMovieDto(
+                        movieService.findAll()));
     }
 
     /**
      * getById()
      * Maps to a GET request.
      * A Movie is returned corresponding to an ID.
+     * 
      * @param Id, The id of the movie that is to be returned.
-     * @return The movie object. 
+     * @return The movie object.
      */
 
     @Operation(summary = "Get a movie by id")
@@ -86,36 +89,36 @@ public class MovieController {
             @ApiResponse(responseCode = "200", description = "Success", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = MovieDTO.class)) }),
             @ApiResponse(responseCode = "404", description = "Movie does not exist with the given ID", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) }), 
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) }),
             @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
     })
     @GetMapping("{id}") // GET: localhost:8080/api/v1/movies/1
     public ResponseEntity<MovieDTO> getById(@PathVariable int id) {
         return ResponseEntity.ok(
-            movieMapper.movieToMovieDto(
-                movieService.findById(id)));
+                movieMapper.movieToMovieDto(
+                        movieService.findById(id)));
     }
 
     /**
      * add()
      * Maps to a POST request
      * A movie is provided in the body and added to the database.
+     * 
      * @param movieDto
      * @return A response entity for if the adding was successful.
      */
 
     @Operation(summary = "Add a movie")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Movie created", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = MovieDTO.class))
-        }),
-        @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+            @ApiResponse(responseCode = "201", description = "Movie created", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = MovieDTO.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
     })
     @PostMapping // POST: localhost:8080/api/v1/movies
     public ResponseEntity<MoviePostDTO> add(@RequestBody MoviePostDTO movieDto) {
         Movie mov = movieService.add(
-            movieMapper.moviePostDtoToMovie(movieDto)
-        );
+                movieMapper.moviePostDtoToMovie(movieDto));
         URI location = URI.create("movies/" + mov.getId());
         return ResponseEntity.created(location).build();
     }
@@ -123,8 +126,10 @@ public class MovieController {
     /**
      * update()
      * Maps to a PUT request.
-     * Reads in an id in the path and an update in the body. If the two ids match an update is for the 
+     * Reads in an id in the path and an update in the body. If the two ids match an
+     * update is for the
      * movie DTO in the database.
+     * 
      * @param movieDto
      * @param id
      * @return
@@ -136,14 +141,13 @@ public class MovieController {
             @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "Movie not found with the given id", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
     })
-    @PutMapping("{id}")    
+    @PutMapping("{id}")
     public ResponseEntity<MovieUpdateDTO> update(@RequestBody MovieUpdateDTO movieDto, @PathVariable int id) {
         // Validates if body is correct
         if (id != movieDto.getId())
             return ResponseEntity.badRequest().build();
         movieService.update(
-            movieMapper.movieUpdateDtoToMovie(movieDto)
-            );
+                movieMapper.movieUpdateDtoToMovie(movieDto));
         return ResponseEntity.noContent().build();
     }
 
@@ -151,6 +155,7 @@ public class MovieController {
      * delete()
      * Maps to a DELETE request.
      * An id is inserted via the URL path, and a cascading delete is performed.
+     * 
      * @param id, The corresponding id.
      * @return The response entity for if the operation was successful.
      */
@@ -161,7 +166,7 @@ public class MovieController {
             @ApiResponse(responseCode = "400", description = "Malformed request"),
             @ApiResponse(responseCode = "404", description = "Movie not found with the given Id")
     })
-    @OnDelete(action= OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/students/1
     public ResponseEntity<Movie> delete(@PathVariable int id) {
         movieService.deleteById(id);
@@ -171,10 +176,14 @@ public class MovieController {
     /**
      * updateCharacters()
      * Maps a PUT mapping.
-     * A method that reads in an array of character IDs in the body and a movie ID in the URL path.
-     * The corresponding movie is then updated with the characters that are inserted in the body.
-     * @param characterIds, An int[] array of characters that are to be in the movie with the corresponding id.
-     * @param id, The corresponding movie ID.
+     * A method that reads in an array of character IDs in the body and a movie ID
+     * in the URL path.
+     * The corresponding movie is then updated with the characters that are inserted
+     * in the body.
+     * 
+     * @param characterIds, An int[] array of characters that are to be in the movie
+     *                      with the corresponding id.
+     * @param id,           The corresponding movie ID.
      * @return
      */
 
@@ -194,9 +203,11 @@ public class MovieController {
     /**
      * getCharactersInMovie()
      * Maps a GET request.
-     * An id for the corresponding movie is used to get the characters in that movie.
+     * An id for the corresponding movie is used to get the characters in that
+     * movie.
+     * 
      * @param id
-     * @return A collection of characters in the movie. 
+     * @return A collection of characters in the movie.
      */
     @Operation(summary = "Get all characters in a movie")
     @ApiResponses(value = {
@@ -206,11 +217,10 @@ public class MovieController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @GetMapping("characters/{id}")
-    public ResponseEntity<Collection<CharacterDTO>> getCharactersInMovie(@PathVariable int id){
+    public ResponseEntity<Collection<CharacterDTO>> getCharactersInMovie(@PathVariable int id) {
         return ResponseEntity.ok(
-            characterMapper.characterToCharacterDto(
-                movieService.displayCharacters(id)));
+                characterMapper.characterToCharacterDto(
+                        movieService.displayCharacters(id)));
     }
-    
-}
 
+}

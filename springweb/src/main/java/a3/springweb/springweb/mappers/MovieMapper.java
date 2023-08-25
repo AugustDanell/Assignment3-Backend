@@ -35,14 +35,14 @@ public abstract class MovieMapper {
     // Mappings from movie to DTOs
     public abstract Collection<MovieDTO> movieToMovieDto(Collection<Movie> movies);
 
-    @Mapping(target="characters", source="characters", qualifiedByName = "charactersToIds")
-    @Mapping(target="franchise", source="franchise.id") 
+    @Mapping(target = "characters", source = "characters", qualifiedByName = "charactersToIds")
+    @Mapping(target = "franchise", source = "franchise.id")
     public abstract MovieDTO movieToMovieDto(Movie movie);
 
     @Named("charactersToIds")
     Set<Integer> map(Set<MovieCharacter> source) {
-        if (source == null) return null;
-        return source.stream().map(ch -> ch.getId()
-        ).collect(Collectors.toSet());
+        if (source == null)
+            return null;
+        return source.stream().map(ch -> ch.getId()).collect(Collectors.toSet());
     }
 }

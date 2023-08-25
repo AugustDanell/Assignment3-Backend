@@ -23,26 +23,28 @@ public class FranchiseServiceImpl implements FranchiseService {
     private final MovieRepository movieRepository;
 
     @Autowired
-    public FranchiseServiceImpl(FranchiseRepository franchiseRepository, MovieRepository movieRepository){
-        this.franchiseRepository= franchiseRepository;
+    public FranchiseServiceImpl(FranchiseRepository franchiseRepository, MovieRepository movieRepository) {
+        this.franchiseRepository = franchiseRepository;
         this.movieRepository = movieRepository;
     }
 
     /**
      * findById
      * Finds a Franchise object from the database corresponding to a provided id.
+     * 
      * @param id, The provided id to match on.
      * @return A Franchise object with said id.
      */
 
     @Override
-    public Franchise findById(Integer id){
+    public Franchise findById(Integer id) {
         return franchiseRepository.findById(id).orElseThrow(() -> new FranchiseNotFoundException(id));
     }
 
     /**
      * findAll
      * Returns a collection of franchises stored in the database.
+     * 
      * @return A collection of franchises.
      */
 
@@ -64,6 +66,7 @@ public class FranchiseServiceImpl implements FranchiseService {
     /**
      * update
      * Takes in a Franchise entity and updates the database with it.
+     * 
      * @param entity, The Franchise entity to be updated.
      */
 
@@ -74,7 +77,7 @@ public class FranchiseServiceImpl implements FranchiseService {
 
     /**
      * deleteById
-     * Deletes a franchise from the database by the id. 
+     * Deletes a franchise from the database by the id.
      */
 
     @Override
@@ -88,55 +91,66 @@ public class FranchiseServiceImpl implements FranchiseService {
     /**
      * updateMovies
      * A method that takes in an array of movie ids and a franchiseId.
-     * The Franchise object with the corresponding franchiseId is extracted as franchise, and then we do two things with that:
-     * 1. First we remove its previous references, every movie pointing to franchise has their franchise reference set to null.
-     * 2. We iterate over every movie extracted from movieIds and let them point to franchise.
-     * @param movieIds, An array of movie ids that are to be included in the franchise corresponding to the inserted id.
-     * @param franchiseId, An id corresponding to the franchise we want to have the movies inserted into. 
+     * The Franchise object with the corresponding franchiseId is extracted as
+     * franchise, and then we do two things with that:
+     * 1. First we remove its previous references, every movie pointing to franchise
+     * has their franchise reference set to null.
+     * 2. We iterate over every movie extracted from movieIds and let them point to
+     * franchise.
+     * 
+     * @param movieIds,    An array of movie ids that are to be included in the
+     *                     franchise corresponding to the inserted id.
+     * @param franchiseId, An id corresponding to the franchise we want to have the
+     *                     movies inserted into.
      */
 
     @Override
     public Franchise updateMovies(int[] movieIds, int franchiseId) {
-       Franchise franchise = franchiseRepository.findById(franchiseId).orElseThrow(() -> new FranchiseNotFoundException(franchiseId));
-       List<Movie> allMovies = movieRepository.findAll();
-       
-       // 1. Remove old references:
-       for(Movie movie : allMovies){
-        if(movie.getFranchise() != null && movie.getFranchise().getId() == franchiseId){
-            movie.setFranchise(null);
+        Franchise franchise = franchiseRepository.findById(franchiseId)
+                .orElseThrow(() -> new FranchiseNotFoundException(franchiseId));
+        List<Movie> allMovies = movieRepository.findAll();
+
+        // 1. Remove old references:
+        for (Movie movie : allMovies) {
+            if (movie.getFranchise() != null && movie.getFranchise().getId() == franchiseId) {
+                movie.setFranchise(null);
+            }
         }
-       }
-       
-       // 2. Add new references according to the provided values:
-       Set<Movie> movies = new HashSet<>();
-       for(int id : movieIds){
-        Movie movie = movieRepository.findById(id)
-        .orElseThrow(() -> new MovieNotFoundException(id));
-        movies.add(movie);
-       }
 
-       movies.forEach(m->{
-        m.setFranchise(franchise);
-       });
+        // 2. Add new references according to the provided values:
+        Set<Movie> movies = new HashSet<>();
+        for (int id : movieIds) {
+            Movie movie = movieRepository.findById(id)
+                    .orElseThrow(() -> new MovieNotFoundException(id));
+            movies.add(movie);
+        }
 
-       return franchiseRepository.save(franchise);
+        movies.forEach(m -> {
+            m.setFranchise(franchise);
+        });
+
+        return franchiseRepository.save(franchise);
     }
 
     /**
      * displayCharacters()
-     * Displays every character in a franchise. Simply iterating over every movie in a franchise and for each movie iterate over each character.
+     * Displays every character in a franchise. Simply iterating over every movie in
+     * a franchise and for each movie iterate over each character.
      * Put all of these characters in a set and return that.
-     * @param franchiseID, The id corresponding to the franchise that is sought after.
-     * @return charactersInFranchise, a set of all the characters in the movies that are in the franchise.
+     * 
+     * @param franchiseID, The id corresponding to the franchise that is sought
+     *                     after.
+     * @return charactersInFranchise, a set of all the characters in the movies that
+     *         are in the franchise.
      */
 
     @Override
-    public Collection<MovieCharacter> displayCharacters(int franchiseId){
-        List <Movie> allMovies = movieRepository.findAll();
-        HashSet <MovieCharacter> charactersInFranchise = new HashSet<>();
-        for(Movie movie : allMovies){
-            if(movie.getFranchise() != null && movie.getFranchise().getId() == franchiseId){
-                for(MovieCharacter character : movie.getCharacters()){
+    public Collection<MovieCharacter> displayCharacters(int franchiseId) {
+        List<Movie> allMovies = movieRepository.findAll();
+        HashSet<MovieCharacter> charactersInFranchise = new HashSet<>();
+        for (Movie movie : allMovies) {
+            if (movie.getFranchise() != null && movie.getFranchise().getId() == franchiseId) {
+                for (MovieCharacter character : movie.getCharacters()) {
                     charactersInFranchise.add(character);
                 }
             }
@@ -148,13 +162,15 @@ public class FranchiseServiceImpl implements FranchiseService {
     /**
      * displayMovies()
      * Gets the movies in a franchise
+     * 
      * @param franchiseId, The id corresponding to the wanted franchise
      * @return The movies in that franchise.
      */
 
     @Override
-    public Collection<Movie> displayMovies(int franchiseId){
-        Franchise franchise = franchiseRepository.findById(franchiseId).orElseThrow(() -> new FranchiseNotFoundException(franchiseId));
+    public Collection<Movie> displayMovies(int franchiseId) {
+        Franchise franchise = franchiseRepository.findById(franchiseId)
+                .orElseThrow(() -> new FranchiseNotFoundException(franchiseId));
         return franchise.getMovies();
 
     }

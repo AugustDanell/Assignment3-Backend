@@ -18,7 +18,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Movie{
+public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,20 +38,18 @@ public class Movie{
 
     @Column()
     private String picture;
-    
+
     @Column()
     private String trailer;
 
     @ManyToMany
-    @JoinTable(
-    name="character_movie", 
-    joinColumns = {@JoinColumn(name="movie_id")}, 
-    inverseJoinColumns = {@JoinColumn(name="character_id")
+    @JoinTable(name = "character_movie", joinColumns = { @JoinColumn(name = "movie_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "character_id")
     })
     private Set<MovieCharacter> characters;
 
     @ManyToOne()
-    @JoinColumn(name="franchise_id")
+    @JoinColumn(name = "franchise_id")
     private Franchise franchise;
 
     // Getters:
@@ -75,7 +73,7 @@ public class Movie{
         return director;
     }
 
-    public String getPicture(){
+    public String getPicture() {
         return picture;
     }
 
@@ -94,65 +92,68 @@ public class Movie{
     }
 
     // Setters:
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public void setTitle(String title){
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setGenre(String genre){
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 
-    public void setYear(int year){
+    public void setYear(int year) {
         this.year = year;
     }
 
-    public void setDirector(String director){
+    public void setDirector(String director) {
         this.director = director;
     }
 
-    public void setPicture(String picture){
+    public void setPicture(String picture) {
         this.picture = picture;
     }
 
-    public void setTrailer(String trailer){
+    public void setTrailer(String trailer) {
         this.trailer = trailer;
     }
 
-    public void setCharacters(Set<MovieCharacter> characters){
+    public void setCharacters(Set<MovieCharacter> characters) {
         System.out.println(characters.size());
         this.characters = characters;
     }
 
-    public void setFranchise(Franchise franchise){
+    public void setFranchise(Franchise franchise) {
         this.franchise = franchise;
     }
 
     /**
      * shallowCopyNotNull()
-     * Takes in a new movie and copies its values onto this old movie, provided that they are not null (Shallow).
-     * @param newMovie, The movie entity corresponding to the movie that is to update this movie.
+     * Takes in a new movie and copies its values onto this old movie, provided that
+     * they are not null (Shallow).
+     * 
+     * @param newMovie, The movie entity corresponding to the movie that is to
+     *                  update this movie.
      */
-    
-    public void shallowCopyNotNull(Movie newMovie){
-        
+
+    public void shallowCopyNotNull(Movie newMovie) {
+
         // Not-Nullable:
         this.title = newMovie.getTitle();
         this.year = newMovie.getYear();
         this.director = newMovie.getDirector();
 
-        if(newMovie.getGenre() != null){
+        if (newMovie.getGenre() != null) {
             this.genre = newMovie.getGenre();
         }
 
-        if(newMovie.getPicture() != null){
+        if (newMovie.getPicture() != null) {
             this.picture = newMovie.getPicture();
         }
 
-        if(newMovie.getTrailer() != null){
+        if (newMovie.getTrailer() != null) {
             this.trailer = newMovie.getTrailer();
         }
     }

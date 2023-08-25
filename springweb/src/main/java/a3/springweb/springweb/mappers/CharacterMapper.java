@@ -17,7 +17,7 @@ import a3.springweb.springweb.model.entities.MovieCharacter;
 @Mapper(componentModel = "spring")
 public abstract class CharacterMapper {
 
-     // Mappings from DTO to character.
+    // Mappings from DTO to character.
     @Mapping(target = "movies", ignore = true)
     public abstract MovieCharacter characterPostDtoToCharacter(CharacterPostDTO characterDto);
 
