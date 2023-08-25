@@ -3,7 +3,7 @@ package a3.springweb.springweb.controller;
 import java.net.URI;
 import java.util.Collection;
 
-// Hibernate and Springboot imports:
+// SpringBoot and Hibernate imports:
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,11 +61,11 @@ public class MovieController {
 
     @Operation(summary = "Get all movies")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success", content = {
-                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
-            }),
-            @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
-    })
+        @ApiResponse(responseCode = "200", description = "Success", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
+        }),
+        @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
+})
     @GetMapping // GET: localhost:8080/api/v1/movies
     public ResponseEntity<Collection<MovieDTO>> getAll() {
         return ResponseEntity.ok(
@@ -127,7 +127,7 @@ public class MovieController {
      * movie DTO in the database.
      * @param movieDto
      * @param id
-     * @return A response entity informing us of the success of the update.
+     * @return
      */
 
     @Operation(summary = "Update a movie")
@@ -136,8 +136,8 @@ public class MovieController {
             @ApiResponse(responseCode = "400", description = "Malformed request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "Movie not found with the given id", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
     })
-    @PutMapping("{id}") // PUT: localhost:8080/api/v1/movies/1
-    public ResponseEntity<MovieUpdateDTO> update(@RequestBody MovieUpdateDTO movieDto, @PathVariable int id) {
+    @PutMapping("{id}")
+    public ResponseEntity update(@RequestBody MovieUpdateDTO movieDto, @PathVariable int id) {
         // Validates if body is correct
         if (id != movieDto.getId())
             return ResponseEntity.badRequest().build();
@@ -162,7 +162,7 @@ public class MovieController {
             @ApiResponse(responseCode = "404", description = "Movie not found with the given Id")
     })
     @OnDelete(action= OnDeleteAction.CASCADE)
-    @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/movies/1
+    @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/students/1
     public ResponseEntity<Movie> delete(@PathVariable int id) {
         movieService.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -170,12 +170,12 @@ public class MovieController {
 
     /**
      * updateCharacters()
-     * Maps to a PUT request.
-     * A method that reads in an array of charater IDs in the body and a movie ID in the URL path.
-     * The movie corresponding to that ID is then having its characters updated with those in the body.
-     * @param characterIds
-     * @param id, id corresponding to the Movie.
-     * @return Response Entity, informing us if it was a successful update.
+     * Maps a PUT mapping.
+     * A method that reads in an array of character IDs in the body and a movie ID in the URL path.
+     * The corresponding movie is then updated with the characters that are inserted in the body.
+     * @param characterIds, An int[] array of characters that are to be in the movie with the corresponding id.
+     * @param id, The corresponding movie ID.
+     * @return
      */
 
     @Operation(summary = "Update characters in a movie")
@@ -185,21 +185,19 @@ public class MovieController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorAttributeOptions.class)) }),
             @ApiResponse(responseCode = "404", description = "Movie not found with the given ID", content = @Content)
     })
-    @PutMapping("characters/{id}") // PUT: localhost:8080/api/v1/movies/characters/1
+    @PutMapping("characters/{id}")
     public ResponseEntity updateCharacters(@RequestBody int[] characterIds, @PathVariable int id) {
         movieService.updateCharacters(characterIds, id);
         return ResponseEntity.noContent().build();
     }
 
     /**
-     * getCharactersInFranchise()
-     * Maps to a GET request.
-     * Takes in an id in the path corresponding to the id of a franchise.
-     * For this franchise, every character is returned, for every movie in the franchise.
-     * @param id, The franchise ID corresponding to the wanted franchise
-     * @return A response entity, telling us if the operation was successful.
-     */    
-
+     * getCharactersInFranchise
+     * Maps a GET request.
+     * An id for the corresponding franchise is used to get the characters in that franchise.
+     * @param id
+     * @return A collection of characters in the franchise. 
+     */
     @Operation(summary = "Get all characters in a franchise")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success", content = {
@@ -207,7 +205,7 @@ public class MovieController {
             @ApiResponse(responseCode = "404", description = "Franchise does not exist with the given ID", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
-    @GetMapping("characters/{id}") // PUT: localhost:8080/api/v1/movies/characters/1
+    @GetMapping("characters/{id}")
     public ResponseEntity<Collection<CharacterDTO>> getCharactersInFranchise(@PathVariable int id){
         return ResponseEntity.ok(
             characterMapper.characterToCharacterDto(

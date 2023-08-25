@@ -48,6 +48,7 @@ public class CharacterController {
 
     /**
      * getAll()
+     * Maps a GET request.
      * A controller function that maps a URL to the findAll function, via a characterDTO.
      * With the characterDTO we can controll what is to be displayed.
      * @return A response entity that is a collection of Characters (DTOs)
@@ -120,8 +121,8 @@ public class CharacterController {
      * Maps a PUT request.
      * A character is updated, given that the pathID match with the id in the body.
      * @param characterDto, The DTO for a character that is to be updated
-     * @param id, An id corresponding to the character
-     * @return The ResponseEntity
+     * @param id, An id corresponding to the character.
+     * @return The ResponseEntity.
      */
 
     @Operation(summary = "Update a character")
@@ -145,8 +146,8 @@ public class CharacterController {
      * delete()
      * Maps a DELETE request.
      * Takes in an ID and removes the character with that id.
-     * @param id
-     * @return
+     * @param id, the id corresponding to the character to be removed in the DB.
+     * @return A response entity, encapsulating the success of the removal.
      */
     @Operation(summary = "Delete a character")
     @ApiResponses(value = {

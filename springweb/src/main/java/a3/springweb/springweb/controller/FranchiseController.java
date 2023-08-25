@@ -1,9 +1,9 @@
 package a3.springweb.springweb.controller;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.Collection;
 
+// Spring and Hibernate imports:
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+// Internal imports:
 import a3.springweb.springweb.mappers.CharacterMapper;
 import a3.springweb.springweb.mappers.FranchiseMapper;
 import a3.springweb.springweb.mappers.MovieMapper;
@@ -27,9 +28,9 @@ import a3.springweb.springweb.model.dtos.franchise.FranchisePostDTO;
 import a3.springweb.springweb.model.dtos.franchise.FranchiseUpdateDTO;
 import a3.springweb.springweb.model.dtos.movie.MovieDTO;
 import a3.springweb.springweb.model.entities.Franchise;
-import a3.springweb.springweb.model.entities.Movie;
-import a3.springweb.springweb.model.entities.MovieCharacter;
 import a3.springweb.springweb.service.FranchiseService;
+
+// Swagger imports (For API documentation):
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

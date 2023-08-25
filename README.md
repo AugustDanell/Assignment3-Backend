@@ -34,6 +34,11 @@ Here are some endpoints that can be used to test the functionality of the projec
 6. Update characters in Movie: **(PUT) localhost:8080/api/v1/movies/characters/1**
 
 ### Character Endpoints:
+1. Get all Characters: **(GET) localhost:8080/api/v1/character**
+
+2. Get a specific Character: **(GET) localhost:8080/api/v1/character/{id}**
+
+3. Post a new Character: **(POST) localhost:8080/api/v1/character/{id}**
 
 
 ## Installation
